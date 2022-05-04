@@ -13,57 +13,60 @@
              			 	<span class="align-middle">Dashboard</span>
             			</a>
 					</li> 
-					<?php if($_SESSION['user_group'] == 'Kader Posyandu' OR $_SESSION['user_group'] == 'Bidan Posyandu'){ ?>
+					<?php if($_SESSION['user_group'] == 'Admin'){ ?>
 						<li class="sidebar-item bg-sidebar" style="background-color: #2F4F4F;">
-							<a class="sidebar-link bg-sidebar" style="background-color: #2F4F4F;" href="perhitungan.php">
-	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Perhitungan</span>
+							<a class="sidebar-link bg-sidebar" style="background-color: #2F4F4F;" href="dokumen.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Dokumen</span>
 	            			</a>
 						</li> 
-					<?php } ?>
-
-					<?php if($_SESSION['user_group'] == 'Kader Posyandu'){ ?>
 						<li class="sidebar-item  bg-sidebar" style="background-color: #2F4F4F;">
 							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="jadwal.php">
-	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Jadwal</span>
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Proyek</span>
 	            			</a>
 						</li>
-					<?php } ?>
-
-					<?php if($_SESSION['user_group'] == 'Bidan Posyandu'){ ?>
+						<li class="sidebar-item  bg-sidebar" style="background-color: #2F4F4F;">
+							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="rak.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master RAK</span>
+	            			</a>
+						</li>
+						<li class="sidebar-item  bg-sidebar" style="background-color: #2F4F4F;">
+							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="map.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Map</span>
+	            			</a>
+						</li>
+					<?php }  ?>
+					<?php if($_SESSION['user_group'] == 'Admin' OR $_SESSION['user_group'] == 'Super Admin'){ ?>
 						<li class="sidebar-item  bg-sidebar" style="background-color: #2F4F4F;">
 							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="informasi.php">
-	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Informasi Gizi</span>
-	            			</a>
-						</li>
-						<li class="sidebar-item  bg-sidebar" style="background-color: #2F4F4F;">
-							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="makanan.php">
-	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Menu Makanan</span>
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Berkas</span>
 	            			</a>
 						</li>
 					<?php } ?>
-
-					<?php if($_SESSION['user_group'] == 'Kader Posyandu'){ ?>
-						<li class="sidebar-item bg-sidebar" style="background-color: #2F4F4F;">
-							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="ibu_hamil.php">
-	             				<i class="align-middle" data-feather="user"></i> <span class="align-middle">Ibu Hamil</span>
-	            			</a>
-						</li> 
+					<?php if($_SESSION['user_group'] == 'Admin'){ ?>
 						<li class="sidebar-item  bg-sidebar" style="background-color: #2F4F4F;">
-							<a class="sidebar-link bg-sidebar" style="background-color: #2F4F4F;" href="bidan.php">
-	             				<i class="align-middle" data-feather="user"></i> <span class="align-middle">Bidan</span>
+							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="informasi.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Catatan</span>
 	            			</a>
-						</li> 
+						</li>
 						<li class="sidebar-item  bg-sidebar" style="background-color: #2F4F4F;">
-							<a class="sidebar-link bg-sidebar" style="background-color: #2F4F4F;" href="kader.php">
-	             				<i class="align-middle" data-feather="user"></i> <span class="align-middle">Kader Posyandu</span>
+							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="informasi.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Surat</span>
 	            			</a>
-						</li>  
+						</li>
+					<?php } ?>  
+					<?php if($_SESSION['user_group'] == 'Super Admin'){ ?>
+						<li class="sidebar-item  bg-sidebar" style="background-color: #2F4F4F;">
+							<a class="sidebar-link  bg-sidebar" style="background-color: #2F4F4F;" href="informasi.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">User</span>
+	            			</a>
+						</li>
 					<?php } ?>
 						<li class="sidebar-item bg-sidebar" style="background-color: #2F4F4F;"> 
 							<a class="sidebar-link bg-sidebar" style="background-color: #2F4F4F;" href="pages-sign-in.html">
 	              				<i class="align-middle" data-feather="log-out"></i> 
 	              				<span class="align-middle">Sign Out</span>
 	            			</a>
-						</li>  
+					</li>  
+				</ul>
 			</div>
 		</nav>

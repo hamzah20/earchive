@@ -14,7 +14,7 @@
             $rs_email   = mysqli_fetch_array($r_email);
 
             if($rs_email['TOTAL_USER'] > 0){
-                $sql="SELECT * FROM v_s_user where (id_user='".$username."' or username='".$username."') and password='".$password."' and user_group='".$group."'";
+                $sql="SELECT * FROM user where (id_user='".$username."' or username='".$username."') and password='".$password."' and user_group='".$group."'";
                 $r  = mysqli_query($conn,$sql);
                 $rs = mysqli_fetch_array($r);
                     $_SESSION['member_id']  = $rs['rec_id'];

@@ -3,138 +3,121 @@
 
 	$role=$_GET['role'];
     switch ($role) {
-        //---------------------- case master jadwal ---------------------------------------------------
-        case'TAMBAH_JADWAL':
-            $tanggal=date("Y-m-d",strtotime($_POST['txt_tanggal']));
-            $jam=date("H:i:s",strtotime($_POST['txt_jam']));
-            $year=date("Y",strtotime($_POST['txt_tanggal']));
-            $tempat=$_POST['txt_tempat'];
+        //---------------------- case master rak ---------------------------------------------------
+        case'TAMBAH_RAK': 
+            $nama = $_POST['txt_nama'];
 
-            //------------- mencari apakah ada jadwal di jam yang sama
-            $sql="select count(*) as TOTAL from jadwal where tanggal_jadwal='".$tanggal."' and waktu_jadwal='".$jam."'";
+            //------------- mencari apakah ada nama rak yang sama
+            $sql="select count(*) as TOTAL from rak where nama_rak='".$nama."'";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
             if ($rs["TOTAL"]>0)
             {
-                $_SESSION["message"]="Jadwal Sudah Terisi";
-                header  ("location:../jadwal.php");
+                $_SESSION["message"]="Nama RAK sudah ada";
+                header  ("location:../rak.php");
                 exit;
             }
             
             //------------- mencari nomor terkhir untuk penambahan jadwal
-            $sql="select count(*) as TOTAL from jadwal where substring(kode_jadwal,2,4)='".$year."'";
+            $sql="select count(*) as TOTAL from rak";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
             if ($rs["TOTAL"]!=0)
             {
-                $sql1 = "select substring(kode_jadwal,6,5) as LAST_NO from jadwal WHERE substring(kode_jadwal,2,4)='".$year."' order by substring(kode_jadwal,6,5) desc";
+                $sql1 = "select substring(kode_rak,2,3) as LAST_NO from rak order by substring(kode_rak,2,3) desc";
                 $result= mysqli_query($conn,$sql1);
                 $rs = mysqli_fetch_array($result);
-                $run_no = str_pad(strval(intval($rs["LAST_NO"]) + 1), 5, "0", STR_PAD_LEFT);
+                $run_no = str_pad(strval(intval($rs["LAST_NO"]) + 1), 3, "0", STR_PAD_LEFT);
             }else{
-                $run_no = str_pad(strval(intval(1)), 5, "0", STR_PAD_LEFT);
+                $run_no = str_pad(strval(intval(1)), 3, "0", STR_PAD_LEFT);
             }
-            $doc_no="A".$year.$run_no;
+            $doc_no="R".$run_no;
 
             //------------- menambahkan jadwal ke dalam database
-            $sql="INSERT INTO jadwal (kode_jadwal,tempat_jadwal,tanggal_jadwal,waktu_jadwal) values('".$doc_no."','".$tempat."','".$tanggal."','".$jam."')";
+            $sql="INSERT INTO rak (kode_rak,nama_rak) values('".$doc_no."','".$nama."')";
             $r=mysqli_query($conn,$sql);
-            header  ("location:../jadwal.php");
+            header  ("location:../rak.php");
 
         break;
-        case"DELETE_JADWAL":
-            $id=$_POST['idx'];
-           $sql="DELETE FROM jadwal where rec_id='".$id."'";
-          $r=mysqli_query($conn,$sql);
+        case"DELETE_RAK":
+          $kode = $_POST['idx'];
+          // Cek apakah RAK sudah pernah dipakai
+          // $sql_cek  = "SELECT COUNT(*) as TOTAL FROM berkas_dokumen where kode_rak='".$kode."'";
+          // $r_cek    = mysqli_query($conn,$sql_cek); 
+          // $rs_cek   = mysql_fetch_array($r_cek);
+          // if($rs_cek['TOTAL']<=0){
+          //   $sql = "DELETE FROM rak where kode_rak='".$kode."'";
+          //   $r   = mysqli_query($conn,$sql);
+          // } 
+          $sql = "DELETE FROM rak where kode_rak='".$kode."'";
+            $r   = mysqli_query($conn,$sql);
         break;
-        case"EDIT_JADWAL":
+        case"EDIT_RAK":
             $id=$_POST['id'];
-            $sql="SELECT * FROM jadwal where rec_id='".$id."'";
+            $sql="SELECT * FROM rak where kode_rak='".$id."'";
             $r= mysqli_query($conn,$sql);
             $rs = mysqli_fetch_array($r);
             ?>
                 <div class="mb-3">
-                  <label class="form-label">Kode Jadwal</label>
-                  <input type="text" name="txt_kode" class="form-control" placeholder="kode" value="<?php echo $rs['kode_jadwal'];?>" readonly>
-                  <input type="hidden" name="txt_rec_id" class="form-control" placeholder="kode" value="<?php echo $id;?>" readonly>
-
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label">Tanggal</label>
-                  <input type="date" name="txt_tanggal" class="form-control" placeholder="Tanggal" value="<?php echo $rs['tanggal_jadwal'];?>">
-                </div>
-             
-                <div class="mb-3">
-                  <label class="form-label">Jam</label>
-                  <input type="time" name="txt_jam" class="form-control" placeholder="Jam" value="<?php echo $rs['waktu_jadwal'];?>">
-                </div>
+                  <label class="form-label">Kode RAK</label>
+                  <input type="text" name="txt_kode" class="form-control" placeholder="kode" value="<?php echo $rs['kode_rak'];?>" readonly> 
+                </div> 
             
                 <div class="mb-3">
-                  <label class="form-label">Tempat</label>
-                  <input type="text" name="txt_tempat" class="form-control" placeholder="Tempat" value="<?php echo $rs['tempat_jadwal'];?>">
+                  <label class="form-label">Nama RAK</label>
+                  <input type="text" name="txt_nama" class="form-control" placeholder="Nama RAK" value="<?php echo $rs['nama_rak'];?>">
                 </div>
             <?php
         break;
-        case"PROSES_EDIT_JADWAL":
-            $rec_id=$_POST['txt_rec_id'];
-
-            $tanggal=date("Y-m-d",strtotime($_POST['txt_tanggal']));
-            $jam=date("H:i:s",strtotime($_POST['txt_jam']));
-            //$year=date("Y",strtotime($_POST['txt_tanggal']));
-            $tempat=$_POST['txt_tempat'];
+        case"PROSES_EDIT_RAK":
+            $kode = $_POST['txt_kode']; 
+            $nama = $_POST['txt_nama'];
 
             $sql="
-                UPDATE jadwal SET
-                tanggal_jadwal='".$tanggal."',
-                waktu_jadwal='".$jam."',
-                tempat_jadwal='".$tempat."'
+                UPDATE rak SET 
+                nama_rak ='".$nama."'
 
-                where rec_id='".$rec_id."'
+                where kode_rak='".$kode."'
             ";
             $r=mysqli_query($conn,$sql);
-            header  ("location:../jadwal.php");
+            header  ("location:../rak.php");
         break;
 
-        //--------------------------------------------------------- INFORMASI
-        case"TAMBAH_INFORMASI":
-            $judul=$_POST['txt_judul'];
-            $tgl=$_POST['txt_tgl'];
-            $deskripsi=$_POST['txt_deskripsi'];
+        //--------------------------------------------------------- DOKUMEN
+        case'TAMBAH_DOKUMEN': 
+            $jenis = $_POST['txt_jenis'];
 
-            $tanggal=date("Y-m-d",strtotime($tgl));
-            $year=date("Y",strtotime($tgl));
-
+            //------------- mencari apakah ada nama rak yang sama
+            $sql="select count(*) as TOTAL from dokumen where jenis_dokumen='".$jenis."'";
+            $r=mysqli_query($conn,$sql);
+            $rs=mysqli_fetch_array($r);
+            if ($rs["TOTAL"]>0)
+            {
+                $_SESSION["message"]="Nama Dokumen sudah ada";
+                header  ("location:../dokumen.php");
+                exit;
+            }
             
-            //------------- mencari nomor terkhir untuk penambahan infromasi
-             $sql="select count(*) as TOTAL from informasi_gizi where substring(kode_informasi,2,4)='".$year."'";
+            //------------- mencari nomor terkhir untuk penambahan jadwal
+            $sql="select count(*) as TOTAL from dokumen";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
             if ($rs["TOTAL"]!=0)
             {
-                $sql1 = "select substring(kode_informasi,6,5) as LAST_NO from informasi_gizi WHERE substring(kode_informasi,2,4)='".$year."' order by substring(kode_informasi,6,5) desc";
+                $sql1 = "select substring(kode_dokumen,2,3) as LAST_NO from dokumen order by substring(kode_dokumen,2,3) desc";
                 $result= mysqli_query($conn,$sql1);
                 $rs = mysqli_fetch_array($result);
-                $run_no = str_pad(strval(intval($rs["LAST_NO"]) + 1), 5, "0", STR_PAD_LEFT);
+                $run_no = str_pad(strval(intval($rs["LAST_NO"]) + 1), 3, "0", STR_PAD_LEFT);
             }else{
-                $run_no = str_pad(strval(intval(1)), 5, "0", STR_PAD_LEFT);
+                $run_no = str_pad(strval(intval(1)), 3, "0", STR_PAD_LEFT);
             }
-             $doc_no="I".$year.$run_no;
+            $doc_no="D".$run_no;
 
+            //------------- menambahkan jadwal ke dalam database
+            $sql="INSERT INTO dokumen (kode_dokumen,jenis_dokumen) values('".$doc_no."','".$jenis."')";
+            $r=mysqli_query($conn,$sql);
+            header  ("location:../dokumen.php");
 
-            
-            $ext = end(explode('.', $_FILES["txt_image"]["name"])); // upload file ext
-            
-            $name = md5(rand()) . '.' . $ext; // rename nama file gambar
-            $path = "../../boostrap/img/informasi/". $name; // image upload path
-            $file_name="boostrap/img/informasi/". $name;
-
-            $upload=move_uploaded_file($_FILES["txt_image"]["tmp_name"], $path);
-            if($upload){
-                 $sql="INSERT INTO informasi_gizi (kode_informasi,judul_informasi,tanggal_informasi,deskripsi_informasi,gambar_informasi)VALUES('".$doc_no."','".$judul."','".$tanggal."','".$deskripsi."','".$file_name."')";
-                $r=mysqli_query($conn,$sql);    
-                header('location:../informasi.php');
-            }
         break;
         case"DETAIL_INFORMASI":
             $id=$_POST['id'];
@@ -168,212 +151,89 @@
                 </div>
             <?php
         break;
-        case"DELETE_INFORMASI":
-            $id=$_POST['idx'];
-            $sql_image="SELECT gambar_informasi FROM informasi_gizi where rec_id='".$id."'";
-            $r_image=mysqli_query($conn,$sql_image);
-            while($rs_image=mysqli_fetch_array($r_image)){
-                $path= "../../".$rs_image['gambar_informasi'];
-                //echo $path;
-                if(unlink($path)){
-                    $sql="DELETE FROM informasi_gizi WHERE rec_id='".$id."'";
-                    mysqli_query($conn,$sql);
-                }
-            }
+        case"DELETE_DOKUMEN":
+            $id  = $_POST['id_dokumen'];
+            $sql = "DELETE FROM dokumen WHERE kode_dokumen='".$id."'";
+            $r   = mysqli_query($conn,$sql);
         break;
-        case"EDIT_INFORMASI":
-            $id=$_POST['id'];
-            $sql="SELECT * FROM informasi_gizi where rec_id='".$id."'";
+        case"EDIT_DOKUMEN":
+            $id  = $_POST['id_dokumen'];
+            $sql = "SELECT * FROM dokumen where kode_dokumen='".$id."'";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
-            ?>
-            <input type="text" name="txt_kode" class="form-control" placeholder="Judul" readonly="" value="<?php echo $rs['kode_informasi']?>">
-                
-                <div class="mb-3">
-                    <label class="form-label">Judul Informasi</label>
-                    <input type="text" name="txt_judul" class="form-control" placeholder="Judul"  value="<?php echo $rs['judul_informasi']?>">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Tanggal Informasi</label>
-                    <input type="date" name="txt_tgl" class="form-control" placeholder="Tanggal"  value="<?php echo $rs['tanggal_informasi']?>">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Deskripsi</label>
-                    <textarea class="form-control" name='txt_deskripsi'> <?php echo $rs['deskripsi_informasi']?></textarea>
-                </div>
-
-                <div class="mb-3">
-                <label>&nbsp;</label>
-                    <img src="../<?php echo $rs['gambar_informasi']?>" class="img-fluid">
-                </div>
-                 <div class="mb-3">
-                  <label>Gambar</label>
-                  <input type="hidden" name="txt_gambar_old" value="<?php echo $rs['gambar_informasi']?>">
-                  <input type="file"  class="form-control"  name="txt_image">
-                  
-                </div>
-            <?php
+?>
+            <div class="mb-3">
+                <label class="form-label">Kode Dokumen</label>
+                <input type="text" name="txt_kode" class="form-control" placeholder="Kode Dokumen" readonly="" value="<?php echo $rs['kode_dokumen']?>" readonly>
+            </div>    
+            <div class="mb-3">
+                <label class="form-label">Jenis Dokumen</label>
+                <input type="text" name="txt_jenis" class="form-control" placeholder="Jenis Dokumen"  value="<?php echo $rs['jenis_dokumen']?>">
+            </div>   
+<?php 
         break;
-        case"PROSES_EDIT_INFORMASI":
-            $kode=$_POST['txt_kode'];
-            $judul=$_POST['txt_judul'];
-            $tgl=$_POST['txt_tgl'];
-            $deskripsi=$_POST['txt_deskripsi'];
+        case"PROSES_EDIT_DOKUMEN":
+            $kode  = $_POST['txt_kode'];
+            $jenis = $_POST['txt_jenis'];  
 
-            $tanggal=date("Y-m-d",strtotime($tgl));
-            $year=date("Y",strtotime($tgl));
+            $sql="UPDATE dokumen SET jenis_dokumen='".$jenis."' where kode_dokumen='".$kode."'";
+            $r=mysqli_query($conn,$sql);  
+            header('location:../dokumen.php'); 
+        break;
+        //---------------------------------------------------------------- MAP
+        case'TAMBAH_MAP': 
+            $nama = $_POST['txt_nama'];
 
-            if(!empty($_FILES["txt_image"]["name"]) || $_FILES["txt_image"]["name"]<>""){
-                 $path= "../../".$_POST['txt_gambar_old'];
-
-                if(unlink($path)){
-                   $ext = end(explode('.', $_FILES["txt_image"]["name"])); // upload file ext
-            
-                    $name = md5(rand()) . '.' . $ext; // rename nama file gambar
-                    $path = "../../boostrap/img/informasi/". $name; // image upload path
-                    $file_name="boostrap/img/informasi/". $name;
-
-                    $upload=move_uploaded_file($_FILES["txt_image"]["tmp_name"], $path);
-                    if($upload){
-                        $sql="UPDATE informasi_gizi SET 
-                            judul_informasi='".$judul."',
-                            tanggal_informasi='".$tanggal."',
-                            deskripsi_informasi='".$deskripsi."',
-                            gambar_informasi='".$file_name."'
-
-                            where kode_informasi='".$kode."'
-                        ";
-                        $r=mysqli_query($conn,$sql);    
-
-
-                        header('location:../informasi.php');
-                    }
-
-                    //}
-                }
-            }else{
-
-                $sql="UPDATE informasi_gizi SET 
-                    judul_informasi='".$judul."',
-                    tanggal_informasi='".$tanggal."',
-                    deskripsi_informasi='".$deskripsi."'
-
-                    where kode_informasi='".$kode."'
-                ";
-                $r=mysqli_query($conn,$sql);  
-                header('location:../informasi.php');
+            //------------- mencari apakah ada nama rak yang sama
+            $sql="select count(*) as TOTAL from rak map nama_map='".$nama."'";
+            $r=mysqli_query($conn,$sql);
+            $rs=mysqli_fetch_array($r);
+            if ($rs["TOTAL"]>0)
+            {
+                $_SESSION["message"]="Nama MAP sudah ada";
+                header  ("location:../map.php");
+                exit;
             }
-        break;
-        //---------------------------------------------------------------- Makanan
-        case"TAMBAH_MAKANAN":
-            $judul=$_POST['txt_judul'];
-            $tgl=$_POST['txt_tgl'];
-            $deskripsi=$_POST['txt_deskripsi'];
-
-            $tanggal=date("Y-m-d",strtotime($tgl));
-            $year=date("Y",strtotime($tgl));
-
             
-            //------------- mencari nomor terkhir untuk penambahan makanan
-             $sql="select count(*) as TOTAL from menu_makanan where substring(kode_makanan,2,4)='".$year."'";
+            //------------- mencari nomor terkhir untuk penambahan jadwal
+            $sql="select count(*) as TOTAL from map";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
             if ($rs["TOTAL"]!=0)
             {
-                $sql1 = "select substring(kode_makanan,6,5) as LAST_NO from menu_makanan WHERE substring(kode_makanan,2,4)='".$year."' order by substring(kode_makanan,6,5) desc";
+                $sql1 = "select substring(kode_map,2,3) as LAST_NO from map order by substring(kode_map,2,3) desc";
                 $result= mysqli_query($conn,$sql1);
                 $rs = mysqli_fetch_array($result);
-                $run_no = str_pad(strval(intval($rs["LAST_NO"]) + 1), 5, "0", STR_PAD_LEFT);
+                $run_no = str_pad(strval(intval($rs["LAST_NO"]) + 1), 3, "0", STR_PAD_LEFT);
             }else{
-                $run_no = str_pad(strval(intval(1)), 5, "0", STR_PAD_LEFT);
+                $run_no = str_pad(strval(intval(1)), 3, "0", STR_PAD_LEFT);
             }
-             $doc_no="M".$year.$run_no;
+            $doc_no="M".$run_no;
 
-
-            
-            $ext = end(explode('.', $_FILES["txt_image"]["name"])); // upload file ext
-            
-            $name = md5(rand()) . '.' . $ext; // rename nama file gambar
-            $path = "../../boostrap/img/makanan/". $name; // image upload path
-            $file_name="boostrap/img/makanan/". $name;
-
-            $upload=move_uploaded_file($_FILES["txt_image"]["tmp_name"], $path);
-            if($upload){
-                 $sql="INSERT INTO menu_makanan (kode_makanan,nama_makanan,tanggal_makanan,isi_makanan,gambar_makanan)VALUES('".$doc_no."','".$judul."','".$tanggal."','".$deskripsi."','".$file_name."')";
-                $r=mysqli_query($conn,$sql);    
-                header('location:../makanan.php');
-            }
-        break;
-        case"DETAIL_MAKANAN":
-            $id=$_POST['id'];
-            //echo$id;
-            $sql="SELECT * FROM menu_makanan where rec_id='".$id."'";
+            //------------- menambahkan jadwal ke dalam database
+            $sql="INSERT INTO map (kode_map,nama_map) values('".$doc_no."','".$nama."')";
             $r=mysqli_query($conn,$sql);
-            $rs=mysqli_fetch_array($r);
-            ?>
+            header  ("location:../map.php");
+
+        break; 
+        case"EDIT_MAP":
+            $id  = $_POST['id_map'];
+            $sql = "SELECT * FROM map where kode_map='".$id."'";
+            $r   = mysqli_query($conn,$sql);
+            $rs  = mysqli_fetch_array($r);
+            ?> 
                 <div class="mb-3">
-                    <label class="form-label">Kode Makanan</label>
-                    <input type="text" name="txt_judul" class="form-control" placeholder="Judul" readonly="" value="<?php echo $rs['kode_makanan']?>">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Nama Makanan</label>
-                    <input type="text" name="txt_judul" class="form-control" placeholder="Judul" readonly="" value="<?php echo $rs['nama_makanan']?>">
+                  <label class="form-label">Kode Map</label>
+                  <input type="text" name="txt_kode" class="form-control" placeholder="Kode Map"  value="<?php echo $rs['kode_map']?>" readonly>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Tanggal Makanan</label>
-                    <input type="date" name="txt_tgl" class="form-control" placeholder="Tanggal" readonly="" value="<?php echo $rs['tanggal_makanan']?>">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Isi Makanan</label>
-                    <textarea class="form-control" name='txt_deskripsi' disabled=""> <?php echo $rs['isi_makanan']?></textarea>
-                </div>
-
-                <div class="mb-3">
-                <label>Gambar</label>
-                    <img src="../<?php echo $rs['gambar_makanan']?>" class="img-fluid">
-                </div>
+                  <label class="form-label">Nama Map</label>
+                  <input type="text" name="txt_nama" class="form-control" placeholder="Nama Map" value="<?php echo $rs['nama_map']?>">
+                </div> 
             <?php
         break;
-        case"EDIT_MAKANAN":
-            $id=$_POST['id'];
-            $sql="SELECT * FROM menu_makanan where rec_id='".$id."'";
-            $r= mysqli_query($conn,$sql);
-            $rs = mysqli_fetch_array($r);
-            ?>
-            <input type="text" name="txt_kode" class="form-control" placeholder="Judul" readonly="" value="<?php echo $rs['kode_makanan']?>">
-                <div class="mb-3">
-                  <label class="form-label">Nama Makanan</label>
-                  <input type="text" name="txt_judul" class="form-control" placeholder="Judul"  value="<?php echo $rs['nama_makanan']?>">
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label">Tanggal</label>
-                  <input type="date" name="txt_tgl" class="form-control" placeholder="Tanggal" value="<?php echo $rs['tanggal_makanan']?>">
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label">Isi Makanan</label>
-                  <textarea class="form-control" name='txt_deskripsi'><?php echo $rs['isi_makanan']?></textarea>
-                </div>
-
-                <div class="mb-3">
-                  <label>&nbsp;</label>
-                    <img src="../<?php echo $rs['gambar_makanan']?>" class="img-fluid">
-                
-                </div>
-                <div class="mb-3">
-                  <label>Gambar</label>
-                  <input type="hidden" name="txt_gambar_old" value="<?php echo $rs['gambar_makanan']?>">
-                  <input type="file"  class="form-control"  name="txt_image">
-                  
-                </div>
-            <?php
-        break;
-        case"DELETE_MAKANAN":
+        case"DELETE_MAP":
             $id=$_POST['idx'];
             $sql_image="SELECT gambar_makanan FROM menu_makanan where rec_id='".$id."'";
             $r_image=mysqli_query($conn,$sql_image);
@@ -386,56 +246,13 @@
                 }
             }
         break;
-        case"PROSES_EDIT_MAKANAN":
-            $kode=$_POST['txt_kode'];
-            $judul=$_POST['txt_judul'];
-            $tgl=$_POST['txt_tgl'];
-            $deskripsi=$_POST['txt_deskripsi'];
+        case"PROSES_EDIT_MAP":
+            $kode = $_POST['txt_kode'];
+            $nama = $_POST['txt_nama']; 
 
-            $tanggal=date("Y-m-d",strtotime($tgl));
-            $year=date("Y",strtotime($tgl));
-
-            if(!empty($_FILES["txt_image"]["name"]) || $_FILES["txt_image"]["name"]<>""){
-                 $path= "../../".$_POST['txt_gambar_old'];
-
-                if(unlink($path)){
-                   $ext = end(explode('.', $_FILES["txt_image"]["name"])); // upload file ext
-            
-                    $name = md5(rand()) . '.' . $ext; // rename nama file gambar
-                    $path = "../../boostrap/img/makanan/". $name; // image upload path
-                    $file_name="boostrap/img/makanan/". $name;
-
-                    $upload=move_uploaded_file($_FILES["txt_image"]["tmp_name"], $path);
-                    if($upload){
-                      
-                        $sql="UPDATE menu_makanan SET 
-                            nama_makanan='".$judul."',
-                            tanggal_makanan='".$tanggal."',
-                            isi_makanan='".$deskripsi."',
-                            gambar_makanan='".$file_name."'
-
-                            where kode_makanan='".$kode."'
-                        ";
-                        $r=mysqli_query($conn,$sql);    
-
-
-                        header('location:../makanan.php');
-                    }
-
-                    //}
-                }
-            }else{
-
-                $sql="UPDATE menu_makanan SET 
-                    nama_makanan='".$judul."',
-                    tanggal_makanan='".$tanggal."',
-                    isi_makanan='".$deskripsi."'
-
-                    where kode_makanan='".$kode."'
-                ";
-                $r=mysqli_query($conn,$sql);  
-                header('location:../makanan.php');
-            }
+             $sql = "UPDATE map SET nama_map='".$nama."' where kode_map='".$kode."'";
+             $r   = mysqli_query($conn,$sql);  
+             header('location:../map.php');        
         break;
         //-------------------------------------------- perhitungan
         case"TAMBAH_PERHITUNGAN":

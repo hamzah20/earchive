@@ -17,7 +17,7 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-	<title>EPosyandu</title>
+	<title>EArchive</title>
 
 	<link href="../boostrap/css/bootstrap.min.css" rel="stylesheet">
 

@@ -18,8 +18,8 @@
 
 	  });
 
-		//------------------------------- JADWAL 
-		function delete_jadwal(id){
+		//------------------------------- RAK 
+		function delete_rak(id){
 	       swal({
 	        title: "Are you sure?",
 	        text: "",
@@ -31,12 +31,12 @@
 	          if (willDelete) {
 	              $.ajax({
 	              type: 'post',
-	              url: 'Controller/master_p.php?role=DELETE_JADWAL',
+	              url: 'Controller/master_p.php?role=DELETE_RAK',
 	              data: {idx:id},
 	              success: function (data) {
 	                  swal(
 	                      'Deleted!',
-	                      'Your Schedule has been deleted.',
+	                      'Your RAK has been deleted.',
 	                      'success'
 	                    ).then(function(){
 	                      location.reload();
@@ -49,26 +49,27 @@
 	          }
 	        });
 	    }
-	    function edit_jadwal(id){
+	    function edit_rak(id){
 	      $.ajax({
-	          url: 'controller/master_p.php?role=EDIT_JADWAL',
+	          url: 'controller/master_p.php?role=EDIT_RAK',
 	          type: 'post',
 	          data: {id: id},
 	          success: function(body_Edit){ 
 	           
 	            // Add response in Modal body
-	            $('.modalEditJadwal').html(body_Edit);
+	            $('.modalEditRAK').html(body_Edit);
 	            // Display Modal
-	            $('#editjadwal').modal('show');
+	            $('#editRAK').modal('show');
 	          }
 	        });
 	    }
-	    //------------------------------- END OF JADWAL 
-
-	    //------------------------------- KADER POSYANDU 
-		function delete_kader(id){
+	    //------------------------------- END OF RAK 
+	    //
+	   
+	   //------------------------------- PROYEK 
+		function delete_proyek(id){
 	       swal({
-	        title: "Anda yakin ingin menghapus data ini?",
+	        title: "Are you sure?",
 	        text: "",
 	        icon: "warning",
 	        buttons: true,
@@ -78,12 +79,12 @@
 	          if (willDelete) {
 	              $.ajax({
 	              type: 'post',
-	              url: 'Controller/profile_p.php?role=DELETE_KADER',
-	              data: {id_kader:id},
+	              url: 'Controller/master_p.php?role=DELETE_PROYEK',
+	              data: {idx:id},
 	              success: function (data) {
 	                  swal(
 	                      'Deleted!',
-	                      'Data kader berhasil dihapus.',
+	                      'Your Proyek has been deleted.',
 	                      'success'
 	                    ).then(function(){
 	                      location.reload();
@@ -96,24 +97,24 @@
 	          }
 	        });
 	    }
-	    function edit_kader(id){
+	    function edit_proyek(id){
 	      $.ajax({
-	          url: 'controller/profile_p.php?role=EDIT_KADER',
+	          url: 'controller/master_p.php?role=EDIT_PROYEK',
 	          type: 'post',
-	          data: {id_kader: id},
+	          data: {id: id},
 	          success: function(body_Edit){ 
 	           
 	            // Add response in Modal body
-	            $('.modalEditKader').html(body_Edit);
+	            $('.modalEditProyek').html(body_Edit);
 	            // Display Modal
-	            $('#editkader').modal('show');
+	            $('#editProyek').modal('show');
 	          }
 	        });
 	    }
-	    //------------------------------- END OF KADER POSYANDU 
+	    //------------------------------- END OF PROYEK 
 
-	    //------------------------------- BIDAN POSYANDU 
-		function delete_bidan(id){
+	    //------------------------------- KADER POSYANDU 
+		function delete_dokumen(id){
 	       swal({
 	        title: "Anda yakin ingin menghapus data ini?",
 	        text: "",
@@ -125,12 +126,12 @@
 	          if (willDelete) {
 	              $.ajax({
 	              type: 'post',
-	              url: 'Controller/profile_p.php?role=DELETE_BIDAN',
-	              data: {id_bidan:id},
+	              url: 'Controller/master_p.php?role=DELETE_DOKUMEN',
+	              data: {id_dokumen:id},
 	              success: function (data) {
 	                  swal(
 	                      'Deleted!',
-	                      'Data bidan berhasil dihapus.',
+	                      'Data dokumen berhasil dihapus.',
 	                      'success'
 	                    ).then(function(){
 	                      location.reload();
@@ -142,8 +143,69 @@
 	            swal("Your Unit file is safe!");
 	          }
 	        });
-	    } 
-	    //------------------------------- END OF BIDAN POSYANDU 
+	    }
+	    function edit_dokumen(id){
+	      $.ajax({
+	          url: 'controller/master_p.php?role=EDIT_DOKUMEN',
+	          type: 'post',
+	          data: {id_dokumen: id},
+	          success: function(body_Edit){ 
+	           
+	            // Add response in Modal body
+	            $('.modalEditDokumen').html(body_Edit);
+	            // Display Modal
+	            $('#editdokumen').modal('show');
+	          }
+	        });
+	    }
+	    //------------------------------- END OF DOKUMEN
+
+	    //------------------------------- MAP 
+		function delete_map(id){
+	       swal({
+	        title: "Anda yakin ingin menghapus data ini?",
+	        text: "",
+	        icon: "warning",
+	        buttons: true,
+	        dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	          if (willDelete) {
+	              $.ajax({
+	              type: 'post',
+	              url: 'Controller/master_p.php?role=DELETE_MAP',
+	              data: {id_map:id},
+	              success: function (data) {
+	                  swal(
+	                      'Deleted!',
+	                      'Data map berhasil dihapus.',
+	                      'success'
+	                    ).then(function(){
+	                      location.reload();
+	                   });
+
+	              }         
+	              }); 
+	          } else {
+	            swal("Your Unit file is safe!");
+	          }
+	        });
+	    }
+	    function edit_map(id){
+	      $.ajax({
+	          url: 'controller/master_p.php?role=EDIT_MAP',
+	          type: 'post',
+	          data: {id_map: id},
+	          success: function(body_Edit){ 
+	           
+	            // Add response in Modal body
+	            $('.modalEditMap').html(body_Edit);
+	            // Display Modal
+	            $('#editmap').modal('show');
+	          }
+	        });
+	    }
+	    //------------------------------- END OF MAP
 
 	    //------------------------------- PASIEN POSYANDU 
 		function delete_pasien(id){

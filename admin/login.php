@@ -14,7 +14,7 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-sign-in.html" />
 
-	<title>Sign In | AdminKit Demo</title>
+	<title>Sign In | EArchieve</title>
 
 	<link href="../boostrap/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -42,10 +42,10 @@
 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" /> 
 										</div>  
 										<div class="mb-3"> 
-											<label class="form-label">Groupas</label>
+											<label class="form-label">Groups</label>
 										  	<select class="form-select" id="inputGroupSelect01" name="slc_group"> 
-										    	<option value="Kader Posyandu">Kader Posyandu</option>
-										    	<option value="Bidan Posyandu">Bidan Posyandu</option> 
+										    	<option value="Admin">Admin</option>
+										    	<option value="Super Admin">Super Admin</option> 
 										  	</select>
 										</div>
 										<div class="text-center mt-3">

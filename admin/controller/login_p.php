@@ -26,7 +26,7 @@
                     $_SESSION['login']      = 1; 
 
                // Ubah status menjadi "1" (Sedang Login)
-                 $sqlUpdStatus ="UPDATE `user` SET `active`='1' WHERE (id_user='".$username."' or username='".$username."')";
+                $sqlUpdStatus ="UPDATE `user` SET `active`='1' WHERE (id_user='".$username."' or username='".$username."')";
                 $r_updStatus    = mysqli_query($conn,$sqlUpdStatus);
                // $rs_updStatus   = mysqli_fetch_array($r_updStatus); 
                 header('location:../index.php');
@@ -38,9 +38,8 @@
 
         case'LOGOUT':
             // Ubah status menjadi "0" (Sedang Tidak Login)
-            $sqlUpdStatus ="UPDATE `user` SET `active`='0' WHERE (id_user='".$_SESSION['user_id']."' or username='".$_SESSION['username']."')";
-            $r_updStatus    = mysqli_query($conn,$sqlUpdStatus);
-            $rs_updStatus   = mysqli_fetch_array($r_updStatus);
+            $sqlUpdStatus   ="UPDATE `user` SET `active`='0' WHERE (id_user='".$_SESSION['user_id']."' or username='".$_SESSION['username']."')";
+            $r_updStatus    = mysqli_query($conn,$sqlUpdStatus); 
 
             $_SESSION['member_id']  = "";
             $_SESSION['user_id']    = "";
@@ -50,7 +49,7 @@
             $_SESSION['group']      = "";
             $_SESSION['login']      = 0;
 
-            header('location:../index.php');
+            header('location:../login.php');
         break;
     }
 ?>

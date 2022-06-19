@@ -113,7 +113,7 @@
 	    }
 	    //------------------------------- END OF PROYEK 
 
-	    //------------------------------- KADER POSYANDU 
+	    //------------------------------- DOKUMEN 
 		function delete_dokumen(id){
 	       swal({
 	        title: "Anda yakin ingin menghapus data ini?",
@@ -207,8 +207,8 @@
 	    }
 	    //------------------------------- END OF MAP
 
-	    //------------------------------- PASIEN POSYANDU 
-		function delete_pasien(id){
+	    //------------------------------- BERKAS 
+		function delete_berkas(id){
 	       swal({
 	        title: "Anda yakin ingin menghapus data ini?",
 	        text: "",
@@ -220,12 +220,12 @@
 	          if (willDelete) {
 	              $.ajax({
 	              type: 'post',
-	              url: 'Controller/profile_p.php?role=DELETE_PASIEN',
-	              data: {id_pasien:id},
+	              url: 'Controller/master_p.php?role=DELETE_BERKAS',
+	              data: {id:id},
 	              success: function (data) {
 	                  swal(
 	                      'Deleted!',
-	                      'Data pasien berhasil dihapus.',
+	                      'Data berkas berhasil dihapus.',
 	                      'success'
 	                    ).then(function(){
 	                      location.reload();
@@ -233,21 +233,35 @@
               }         
               }); 
           } else {
-            swal("Your schedule file is safe!");
+            swal("Your unit file is safe!");
           }
         });
     }
-    function edit_jadwal(id){
+    function edit_berkas(id){
       $.ajax({
-          url: 'controller/master_p.php?role=EDIT_JADWAL',
+          url: 'controller/master_p.php?role=EDIT_BERKAS',
           type: 'post',
           data: {id: id},
           success: function(body_Edit){ 
            
             // Add response in Modal body
-            $('.modalEditJadwal').html(body_Edit);
+            $('.modalEditBerkas').html(body_Edit);
             // Display Modal
-            $('#addjadwal').modal('show');
+            $('#editBerkas').modal('show');
+          }
+        });
+    }
+	function detail_berkas(id){
+      $.ajax({
+          url: 'controller/master_p.php?role=DETAIL_BERKAS',
+          type: 'post',
+          data: {id: id},
+          success: function(body_Edit){ 
+           
+            // Add response in Modal body
+            $('.modalDetailBerkas').html(body_Edit);
+            // Display Modal
+            $('#detailBerkas').modal('show');
           }
         });
     }

@@ -30,7 +30,7 @@
 							<div class="card-body">
 								<div class="m-sm-4">
 									<div class="text-center">
-										<img src="../boostrap/img/images/logo-kemenkes.png" alt="Charles Hall" class="img-fluid" width="200" height="200" />
+										<img src="../boostrap/img/images/logo-ejmgip.png" alt="Charles Hall" class="img-fluid" width="200" height="200" />
 									</div>
 									<form action="controller/login_p.php?role=LOGIN_ADMIN" method="POST">
 										<div class="mb-3">

@@ -293,7 +293,7 @@
         case'TAMBAH_MAP': 
             $nama = $_POST['txt_nama'];
 
-            //------------- mencari apakah ada nama rak yang sama
+            //------------- mencari apakah ada nama map yang sama
             $sql="select count(*) as TOTAL from rak map nama_map='".$nama."'";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
@@ -304,7 +304,7 @@
                 exit;
             }
             
-            //------------- mencari nomor terkhir untuk penambahan jadwal
+            //------------- mencari nomor terkhir untuk penambahan map
             $sql="select count(*) as TOTAL from map";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
@@ -319,7 +319,7 @@
             }
             $doc_no="M".$run_no;
 
-            //------------- menambahkan jadwal ke dalam database
+            //------------- menambahkan map ke dalam database
             $sql="INSERT INTO map (kode_map,nama_map) values('".$doc_no."','".$nama."')";
             $r=mysqli_query($conn,$sql);
             header  ("location:../map.php");
@@ -363,64 +363,236 @@
              $r   = mysqli_query($conn,$sql);  
              header('location:../map.php');        
         break;
-        //-------------------------------------------- perhitungan
-        case"TAMBAH_PERHITUNGAN":
-            $ibu_hamil=$_POST['slc_hamil'];
-            $bidan=$_POST['slc_bidan'];
-            $aktivitas=$_POST['slc_aktivitas'];
-            $tgl=$_POST['txt_tgl'];
-            $tb=$_POST['txt_tb'];
-            $bb=$_POST['txt_bb'];
-            $usia=$_POST['txt_usia'];
-            $r_rumus=$_POST['r_rumus'];
-            $keluhan=$_POST['txt_keluhan'];
-            $catatan=$_POST['txt_catatan'];
-            $bee=0;
-            $tee=0;
-            $sql_kali="SELECT * FROM aktivitas where rec_id='".$aktivitas."'";
-            $r_kali=mysqli_query($conn,$sql_kali);
-            $rs_kali=mysqli_fetch_array($r_kali);
 
-            if($r_rumus==1){
-                $bee=655+(9.6*$bb)+(1.8*$tb)-(4.7*$usia);
-                $tee=$bee*$rs_kali['perkalian']+100;
-            }else{
-                $bee=655+(9.6*$bb)+(1.8*$tb)-(4.7*$usia);
-                $tee=$bee*$rs_kali['perkalian']+300;
-            }
+        //---------------------------------------------------------------- BERKAS
+        case'TAMBAH_BERKAS': 
+            $nomor      = $_POST['txt_nomor'];
+            $nama       = $_POST['txt_nama'];
+            $dokumen    = $_POST['txt_dokumen'];
+            $tanggal    = $_POST['txt_tanggal'];
+            $proyek     = $_POST['txt_proyek'];
+            $rak        = $_POST['txt_rak'];
+            $map        = $_POST['txt_map'];
+            $status     = $_POST['txt_status'];
 
-
-            $tanggal=date("Y-m-d",strtotime($tgl));
-            $year=date("Y",strtotime($tgl));
-
-            
-            //------------- mencari nomor terkhir untuk penambahan infromasi
-             $sql="select count(*) as TOTAL from laporan where substring(id_laporan,2,4)='".$year."'";
+            //------------- mencari apakah ada nomor dan nama berkas yang sama
+            $sql="select count(*) as TOTAL from berkas where nama_berkas_dokumen='".$nama."' OR kode_berkas_dokumen='".$nomor."'";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
-            if ($rs["TOTAL"]!=0)
+            if ($rs["TOTAL"]>0)
             {
-                $sql1 = "select substring(id_laporan,6,5) as LAST_NO from laporan WHERE substring(id_laporan,2,4)='".$year."' order by substring(id_laporan,6,5) desc";
-                $result= mysqli_query($conn,$sql1);
-                $rs = mysqli_fetch_array($result);
-                $run_no = str_pad(strval(intval($rs["LAST_NO"]) + 1), 5, "0", STR_PAD_LEFT);
-            }else{
-                $run_no = str_pad(strval(intval(1)), 5, "0", STR_PAD_LEFT);
+                $_SESSION["message"]="Nomor atau nama berkas sudah ada sudah ada";
+                header  ("location:../berkas_dokumen.php");
+                exit;
             }
-              $doc_no="L".$year.$run_no;
 
-            $sql_ibu="SELECT tanggal_lahir_ibu_hamil from ibu_hamil where id_ibu_hamil='".$ibu_hamil."'";
-            $r_ibu=mysqli_query($conn,$sql_ibu);
-            $rs_ibu=mysqli_fetch_array($r_ibu);
-             $rs_ibu['tanggal_lahir_ibu_hamil'];
-           $usia_ibu_hamil= hitung_umur($rs_ibu['tanggal_lahir_ibu_hamil']);
-            //echo $usia_ibu_hamil;
-             $sql="INSERT INTO laporan ( id_laporan, id_kader_posyandu, id_bidan, id_ibu_hamil, tanggal_laporan, berat_badan, tinggi_badan, usia_ibu_hamil, bee, usia_kehamilan, tee, keluhan, catatan, kehamilan) VALUES ('".$doc_no."','".$_SESSION['user_id']."','".$bidan."','".$ibu_hamil."','".$tanggal."','".$bb."','".$tb."','".$usia_ibu_hamil."','".$bee."','".$usia."','".$tee."','".$keluhan."','".$catatan."','1')";
-             $r=mysqli_query($conn,$sql);
-             header('location:../perhitungan.php');
+            //------------- menambahkan berkas ke dalam database
+            $sql="INSERT INTO `berkas`(`kode_berkas_dokumen`, `nama_berkas_dokumen`, `kode_dokumen`, `tanggal_berkas_dokumen`, `kode_proyek`, `kode_rak`, 
+            `kode_map`, `status_berkas_dokumen`) 
+            VALUES ('".$nomor."','".$nama."','".$dokumen."','".$tanggal."','".$proyek."','".$rak."','".$map."','".$status."')";
+            $r=mysqli_query($conn,$sql);
+            header  ("location:../berkas_dokumen.php");
 
+        break; 
+        case"EDIT_BERKAS":
+            $id  = $_POST['id'];
+            $sql = "SELECT * FROM berkas where kode_berkas_dokumen='".$id."'";
+            $r   = mysqli_query($conn,$sql);
+            $rs  = mysqli_fetch_array($r);
+            ?> 
+                <div class="mb-3">
+                  <label class="form-label">Nomor</label>
+                  <input type="text" name="txt_kode" class="form-control" placeholder="Nomor Berkas"  value="<?php echo $rs['kode_berkas_dokumen']?>" readonly>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Nama</label>
+                  <input type="text" name="txt_nama" class="form-control" placeholder="Nama Berkas" value="<?php echo $rs['nama_berkas_dokumen']?>">
+                </div> 
+                <div class="mb-3">
+                    <!-- Ambil data dokumen -->
+                    <?php 
+                        $sql_dok  = "SELECT * FROM dokumen";
+                        $r_dok    = mysqli_query($conn,$sql_dok);
+                    ?>
+                    <label class="form-label">Dokumen</label>
+                    <select class="form-select" name="txt_dokumen"> 
+                    <?php
+                        while($rs_dok = mysqli_fetch_array($r_dok)){
+                        if($rs['kode_dokumen'] == $rs_dok['kode_dokumen']){
+                            $selected = 'selected';
+                        } else{
+                            $selected = '';
+                        }
+                    ?>
+                        <option value="<?= $rs_dok['kode_dokumen']; ?>" <?= $selected; ?>><?= $rs_dok['jenis_dokumen']; ?></option> 
+                    <?php } ?>
+                    </select>
+                </div> 
+                <div class="mb-3">
+                    <label class="form-label">Tanggal</label>
+                    <input type="date" name="txt_tanggal" class="form-control" value="<?= $rs['tanggal_berkas_dokumen']?>">
+                </div>  
+                <div class="mb-3">
+                    <!-- Ambil data proyek -->
+                    <?php 
+                    $sql_pro  = "SELECT * FROM proyek";
+                    $r_pro    = mysqli_query($conn,$sql_pro);
+                    ?>
+                    <label class="form-label">Proyek</label>
+                    <select class="form-select" name="txt_proyek"> 
+                    <?php
+                        while($rs_pro = mysqli_fetch_array($r_pro)){
+                        if($rs['kode_proyek'] == $rs_pro['kode_proyek']){
+                            $selected = "selected";
+                        } else{
+                            $selected = "";
+                        }
+                    ?>
+                    <option value="<?= $rs_pro['kode_proyek'];?>" <?= $selected;?>><?= $rs_pro['nama_proyek']; ?></option> 
+                    <?php } ?>
+                    </select>
+                </div>  
+                <div class="row">
+                    <div class="col">
+                    <div class="mb-3">
+                        <!-- Ambil data rak -->
+                        <?php 
+                        $sql_rak  = "SELECT * FROM rak";
+                        $r_rak    = mysqli_query($conn,$sql_rak);
+                        ?>
+                        <label class="form-label">Rak</label>
+                        <select class="form-select" name="txt_rak"> 
+                        <?php
+                            while($rs_rak = mysqli_fetch_array($r_rak)){
+                            if($rs['kode_rak'] == $rs_rak['kode_rak ']){
+                                $selected = 'selected';
+                            } else{
+                                $selected = '';
+                            }
+                        ?>
+                        <option value="<?= $rs_rak['kode_rak']; ?>" <?= $selected;?>><?= $rs_rak['nama_rak']; ?></option> 
+                        <?php } ?>
+                        </select>
+                    </div>  
+                    </div>
+                    <div class="col">
+                    <div class="mb-3">
+                        <!-- Ambil data map -->
+                        <?php 
+                        $sql_map  = "SELECT * FROM map";
+                        $r    = mysqli_query($conn,$sql_map);
+                        ?>
+                        <label class="form-label">Map</label>
+                        <select class="form-select" name="txt_map"> 
+                        <?php
+                            while($rs = mysqli_fetch_array($r)){
+                            if($rs['kode_map'] == $rs_map['kode_map']){
+                                $selected = 'selected';
+                            } else{
+                                $selected = '';
+                            }
+                        ?>
+                        <option value="<?= $rs['kode_map']; ?>" <?= $selected;?>><?= $rs['nama_map']; ?></option> 
+                        <?php } ?>
+                        </select>
+                    </div>
+                    </div>
+                </div> 
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <?php
+                        $status_berkas = isset($rs['status_berkas_dokumen']) ? $rs['status_berkas_dokumen'] : ''; 
+                        if($status_berkas == 'Aktif'){
+                            $selected_aktif = 'selected';
+                        } else{
+                            $selected_aktif= '';
+                        }
 
+                        if($status_berkas == 'Tidak Aktif'){
+                            $selected_non = 'selected';
+                        } else{
+                            $selected_non = '';
+                        }
+                    ?>
+                    <select class="form-select" name="txt_status"> 
+                    <option value="Aktif" <?= $selected_aktif; ?>>Aktif</option>
+                    <option value="Tidak Aktif" <?= $selected_non; ?>>Tidak Aktif</option> 
+                    </select>
+                </div>   
+            <?php
         break;
+        case"PROSES_EDIT_BERKAS":
+            $nomor      = $_POST['txt_kode'];
+            $nama       = $_POST['txt_nama'];
+            $dokumen    = $_POST['txt_dokumen'];
+            $tanggal    = $_POST['txt_tanggal'];
+            $proyek     = $_POST['txt_proyek'];
+            $rak        = $_POST['txt_rak'];
+            $map        = $_POST['txt_map'];
+            $status     = $_POST['txt_status'];
+            
+            $sql = "UPDATE `berkas` SET `nama_berkas_dokumen`='".$nama."',`kode_dokumen`='".$dokumen."',`tanggal_berkas_dokumen`='".$tanggal."',
+             `kode_proyek`='".$proyek."',`kode_rak`='".$rak."',`kode_map`='".$map."',`status_berkas_dokumen`='".$status."' WHERE kode_berkas_dokumen='".$nomor."'";
+            $r   = mysqli_query($conn,$sql);  
+            header('location:../berkas_dokumen.php');        
+        break;
+        case"DELETE_BERKAS":
+            $id = $_POST['id']; 
+            $sql = "DELETE FROM berkas WHERE kode_berkas_dokumen='".$id."'";
+            mysqli_query($conn,$sql);
+        break;
+        case"DETAIL_BERKAS":
+            $id  = $_POST['id'];
+            $sql = "SELECT * FROM v_berkas where kode_berkas_dokumen='".$id."'";
+            $r   = mysqli_query($conn,$sql);
+            $rs  = mysqli_fetch_array($r);
+            ?> 
+                <table>
+                    <tr>
+                        <td>Nomor</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['kode_berkas_dokumen']?></td>
+                    </tr>
+                    <tr>
+                        <td>Nama</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_berkas_dokumen']?></td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['tanggal_berkas_dokumen']?></td>
+                    </tr>
+                    <tr>
+                        <td>Dokumen</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['jenis_dokumen']?></td>
+                    </tr>
+                    <tr>
+                        <td>Map</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_map']?></td>
+                    </tr>
+                    <tr>
+                        <td>Proyek</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_proyek']?></td>
+                    </tr>
+                    <tr>
+                        <td>Rak</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_rak']?></td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['status_berkas_dokumen']?></td>
+                    </tr>
+                    
+                </table> 
+            <?php
+        break;
+        
         case"VIEW_LAPORAN":
              $id= $_POST['id'];
             ?>

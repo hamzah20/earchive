@@ -4,9 +4,13 @@
 	$role=$_GET['role'];
     switch ($role) {
         //---------------------- CASE PROFILE KADER POSYANDU ---------------------------------------------------
-        case'TAMBAH_KADER': 
-            $nama       = $_POST['txt_nama']; 
-            $telp       = $_POST['txt_telp']; 
+        case'TAMBAH_ADMIN': 
+            $nama       = $_POST['txt_nama'];
+            $tempat   = $_POST['txt_tempat'];
+            $tanggal    = $_POST['txt_tanggal'];
+            $jenis      = $_POST['txt_jeniskelamin'];
+            $telp       = $_POST['txt_telpon']; 
+            $email      = $_POST['txt_email'];
             $username   = $_POST['txt_username']; 
             $password   = md5($_POST['txt_password']); 
 
@@ -21,17 +25,17 @@
             if ($fetchCountUsername["TOTAL"] > 0)
             {
                 $_SESSION["message"]="Username Sudah Pernah Dipakai";
-                header  ("location:../kader.php");
+                header  ("location:../profil_admin.php");
                 exit();
             } 
             
-            //------------- Mencari nomer terakhir, untuk memberikan id kader
-            $LastNum      = "select count(*) as TOTAL from kader_posyandu where substring(id_kader,3,2)='".$year."'";
+            //------------- Mencari nomer terakhir, untuk memberikan id admin
+            $LastNum      = "select count(*) as TOTAL from admin where substring(id_admin,3,2)='".$year."'";
             $queryLastNum = mysqli_query($conn,$LastNum);
             $fetchLastNum = mysqli_fetch_array($queryLastNum);
             if ($fetchLastNum["TOTAL"] != 0)
             {
-                $proLastNum = "select substring(id_kader,7,4) as LAST_NO from kader_posyandu WHERE substring(id_kader,3,2)='".$year."' order by substring(id_kader,7,4) desc";
+                $proLastNum = "select substring(id_admin,7,4) as LAST_NO from admin WHERE substring(id_admin,3,2)='".$year."' order by substring(id_admin,7,4) desc";
                 $queryProLastNum = mysqli_query($conn,$proLastNum);
                 $fetchProLastNum = mysqli_fetch_array($queryProLastNum);
                 $run_no = str_pad(strval(intval($fetchProLastNum["LAST_NO"]) + 1), 4, "0", STR_PAD_LEFT);
@@ -40,14 +44,15 @@
             }
             $doc_no="A-".$year.$month.$run_no;
 
-            //------------- Insert data kader kedalam table kader
-            $insKader      = "INSERT INTO kader_posyandu (id_kader,nama_kader,no_telp_kader) values('".$doc_no."','".$nama."','".$telp."')";
-            $queryInsKader = mysqli_query($conn,$insKader); 
+            //------------- Insert data admin kedalam table kader
+            $insAdmin      = "INSERT INTO `admin`(`id_admin`, `nama_admin`, `tempat_lahir_admin`, `tanggal_lahir_admin`, `jenis_kelamin_admin`, `no_telp_admin`, `email_admin`) 
+            VALUES ('".$doc_no."','".$nama."','".$tempat."','".$tanggal."','".$jenis."','".$telp."','".$email."')";
+            $queryInsAdmin = mysqli_query($conn,$insAdmin); 
 
-            //------------- Insert data kader kedalam table user
-            $insUser       = "INSERT INTO user (id_user,username,password,user_group) values('".$doc_no."','".$username."','".$password."','Kader Posyandu')";
+            //------------- Insert data admin kedalam table user
+            $insUser       = "INSERT INTO user (id_user,username,password,user_group) values('".$doc_no."','".$username."','".$password."','Admin')";
             $queryInsUser = mysqli_query($conn,$insUser);
-            header  ("location:../kader.php");
+            header  ("location:../profil_admin.php");
 
         break;
 
@@ -125,19 +130,16 @@
             }
 
             header  ("location:../kader.php");
-
         break;
-
-        //---------------------- END CASE PROFILE KADER POSYANDU ---------------------------------------------------
-        //---------------------- CASE PROFILE BIDAN POSYANDU ---------------------------------------------------
-        case'TAMBAH_BIDAN': 
-            $nama       = $_POST['txt_nama']; 
-            $nip        = $_POST['txt_nip']; 
-            $agama      = $_POST['txt_agama']; 
-            $tempat     = $_POST['txt_tempat']; 
-            $tanggal    = $_POST['txt_tanggal']; 
-            $telp       = $_POST['txt_telp']; 
-            $pendidikan = $_POST['txt_pendidikan']; 
+        //---------------------- END CASE PROFILE ADMIN ---------------------------------------------------
+        //---------------------- CASE PROFILE PEGAWAI ---------------------------------------------------
+        case'TAMBAH_PEGAWAI': 
+            $nama       = $_POST['txt_nama'];
+            $tempat     = $_POST['txt_tempat'];
+            $tanggal    = $_POST['txt_tanggal'];
+            $jenis      = $_POST['txt_jeniskelamin'];
+            $telp       = $_POST['txt_telpon']; 
+            $email      = $_POST['txt_email'];
             $username   = $_POST['txt_username']; 
             $password   = md5($_POST['txt_password']); 
 
@@ -152,33 +154,35 @@
             if ($fetchCountUsername["TOTAL"] > 0)
             {
                 $_SESSION["message"]="Username Sudah Pernah Dipakai";
-                header  ("location:../bidan.php");
+                header  ("location:../profil_pegawai.php");
                 exit();
             } 
             
-            //------------- Mencari nomer terakhir, untuk memberikan id bidan
-            $LastNum      = "select count(*) as TOTAL from bidan where substring(id_bidan,3,2)='".$year."'";
+            //------------- Mencari nomer terakhir, untuk memberikan id admin
+            $LastNum      = "select count(*) as TOTAL from pegawai where substring(id_pegawai,3,2)='".$year."'";
             $queryLastNum = mysqli_query($conn,$LastNum);
             $fetchLastNum = mysqli_fetch_array($queryLastNum);
             if ($fetchLastNum["TOTAL"] != 0)
             {
-                $proLastNum = "select substring(id_bidan,7,4) as LAST_NO from bidan WHERE substring(id_bidan,3,2)='".$year."' order by substring(id_bidan,7,4) desc";
+                $proLastNum = "select substring(id_pegawai,7,4) as LAST_NO from pegawai WHERE substring(id_pegawai,3,2)='".$year."' order by substring(id_pegawai,7,4) desc";
                 $queryProLastNum = mysqli_query($conn,$proLastNum);
                 $fetchProLastNum = mysqli_fetch_array($queryProLastNum);
                 $run_no = str_pad(strval(intval($fetchProLastNum["LAST_NO"]) + 1), 4, "0", STR_PAD_LEFT);
             }else{
                 $run_no = str_pad(strval(intval(1)), 4, "0", STR_PAD_LEFT);
             }
-            $doc_no="B-".$year.$month.$run_no;
+            $doc_no="P-".$year.$month.$run_no;
 
-            //------------- Insert data kader kedalam table kader
-            $insBidan      = "INSERT INTO bidan (`id_bidan`, `nama_bidan`, `nip_bidan`, `tanggal_lahir_bidan`, `tempat_lahir_bidan`, `pendidikan_bidan`, `agama_bidan`, `no_telp_bidan`) values('".$doc_no."','".$nama."','".$nip."','".$tanggal."','".$tempat."','".$pendidikan."','".$agama."','".$telp."')";
-            $queryInsKader = mysqli_query($conn,$insBidan); 
+            //------------- Insert data pegawai kedalam table pegawai
+            $insPegawai      = "INSERT INTO `pegawai`(`id_pegawai`, `nama_pegawai`,`tempat_lahir_pegawai`, `tanggal_lahir_pegawai`, `jenis_kelamin_pegawai`, 
+            `no_telp_pegawai`, `email_pegawai`) 
+            VALUES ('".$doc_no."','".$nama."','".$tempat."','".$tanggal."','".$jenis."','".$telp."','".$email."')";
+            $queryInsPegawai = mysqli_query($conn,$insPegawai); 
 
-            //------------- Insert data kader kedalam table user
-            $insUser       = "INSERT INTO user (id_user,username,password,user_group) values('".$doc_no."','".$username."','".$password."','Bidan Posyandu')";
+            //------------- Insert data pegawai kedalam table user
+            $insUser       = "INSERT INTO user (id_user,username,password,user_group) values('".$doc_no."','".$username."','".$password."','Pegawai')";
             $queryInsUser = mysqli_query($conn,$insUser);
-            header  ("location:../bidan.php");
+            header  ("location:../profil_pegawai.php");
 
         break;
 

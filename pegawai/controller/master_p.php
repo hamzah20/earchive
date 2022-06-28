@@ -657,42 +657,47 @@
             ?> 
                 <table>
                     <tr>
-                        <td>Nomor Dokumen</td>
+                        <td>Nomor</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['kode_berkas_dokumen']?></td>
-                    </tr> 
+                    </tr>
                     <tr>
-                        <td>Nama Dokumen</td>
+                        <td>Admin</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_admin']?></td>
+                    </tr>
+                    <tr>
+                        <td>Nama</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['nama_berkas_dokumen']?></td>
                     </tr>
                     <tr>
-                        <td>Tanggal Penyimpanan</td>
+                        <td>Tanggal</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['tanggal_berkas_dokumen']?></td>
                     </tr>
                     <tr>
-                        <td>Jenis Dokumen</td>
+                        <td>Dokumen</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['jenis_dokumen']?></td>
                     </tr>
                     <tr>
-                        <td>Lokasi Proyek</td>
-                        <td style='padding-left:15px;'>:</td>
-                        <td style='padding-left:15px;'><?php echo $rs['nama_proyek']?></td>
-                    </tr>
-                    <tr>
-                        <td>Nomor Rak</td>
-                        <td style='padding-left:15px;'>:</td>
-                        <td style='padding-left:15px;'><?php echo $rs['nama_rak']?></td>
-                    </tr>
-                    <tr>
-                        <td>Nama Map</td>
+                        <td>Map</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['nama_map']?></td>
                     </tr>
                     <tr>
-                        <td>Status Dokumen</td>
+                        <td>Proyek</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_proyek']?></td>
+                    </tr>
+                    <tr>
+                        <td>Rak</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_rak']?></td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['status_berkas_dokumen']?></td>
                     </tr>
@@ -705,7 +710,7 @@
                 $nama_file_db   = explode('/',$_GET['nama_file']);
                 $filename       = $nama_file_db[2]; ;
                 
-                $back_dir = '../';
+                $back_dir = '../../admin/';
                 $file = $back_dir.$_GET['nama_file'];
                  
                     if (file_exists($file)) {
@@ -725,7 +730,7 @@
                     } 
                     else {
                         $_SESSION['pesan'] = "Oops! File - $filename - not found ...";
-                        header("location:../berkas_dokumen.php");
+                        header("location:../berkas_masuk_pegawai.php");
                     }
             }
         break;

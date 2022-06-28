@@ -6,7 +6,7 @@
         //---------------------- CASE PROFILE KADER POSYANDU ---------------------------------------------------
         case'TAMBAH_ADMIN': 
             $nama       = $_POST['txt_nama'];
-            $tempat   = $_POST['txt_tempat'];
+            $tempat     = $_POST['txt_tempat'];
             $tanggal    = $_POST['txt_tanggal'];
             $jenis      = $_POST['txt_jeniskelamin'];
             $telp       = $_POST['txt_telpon']; 
@@ -44,9 +44,9 @@
             }
             $doc_no="A-".$year.$month.$run_no;
 
-            //------------- Insert data admin kedalam table kader
-            $insAdmin      = "INSERT INTO `admin`(`id_admin`, `nama_admin`, `tempat_lahir_admin`, `tanggal_lahir_admin`, `jenis_kelamin_admin`, `no_telp_admin`, `email_admin`) 
-            VALUES ('".$doc_no."','".$nama."','".$tempat."','".$tanggal."','".$jenis."','".$telp."','".$email."')";
+            //------------- Insert data admin kedalam table admin
+            $insAdmin      = "INSERT INTO `admin`(`id_admin`, `nama_admin`, `tempat_lahir_admin`, `tanggal_lahir_admin`, `jenis_kelamin_admin`, `no_telp_admin`, `email_admin`,`status_admin`) 
+            VALUES ('".$doc_no."','".$nama."','".$tempat."','".$tanggal."','".$jenis."','".$telp."','".$email."','Aktif')";
             $queryInsAdmin = mysqli_query($conn,$insAdmin); 
 
             //------------- Insert data admin kedalam table user
@@ -56,82 +56,95 @@
 
         break;
 
-        case"DELETE_KADER":
-
-            // Get ID Kader
-            $id            = $_POST['id_kader'];
-
-            // Cek apakah ID Kader ada pada table laporan
-            $cekKaderLap    = "SELECT COUNT(*) AS TOTAL_USER FROM laporan where id_kader_posyandu='".$id."'";
-            $r_cekKaderLap  = mysqli_query($conn,$cekKaderLap);
-            $rs_cekKaderLap = mysqli_fetch_array($r_cekKaderLap);
-
-            // Cek apakah user sedang login atau tidak
-            $cekLogUser    = "SELECT active  FROM user where id_user='".$id."'";
-            $r_cekLogUser  = mysqli_query($conn,$cekLogUser);
-            $rs_cekLogUser = mysqli_fetch_array($r_cekLogUser);
-
-            // Jika ada atau == 0 maka akan ada alert
-            // Data berhasil dihapus, selain itu
-            // Gagal hapus data, data sudah pernah dipakai
-
-            if($rs_cekKaderLap['TOTAL_USER'] == 0){
-                if($rs_cekLogUser == '0'){
-                    $delKader      = "DELETE FROM kader_posyandu where id_kader='".$id."'";
-                    $queryDelKader = mysqli_query($conn,$delKader);
-
-                    $delUser      = "DELETE FROM user where id_user='".$id."'";
-                    $queryDelUser = mysqli_query($conn,$delUser);
-                } else{
-                     // Kirim alert, gagal menghapus data 
-                }
-
-            } else{
-                // Kirim alert, gagal menghapus data
-            }
-            header  ("location:../kader.php");
-
-        break;
-
-        case"EDIT_KADER":
-            $id = $_POST['id_kader'];
-            $getDataEdit        = "SELECT * FROM kader_posyandu where id_kader='".$id."'";
+        case"EDIT_ADMIN":
+            $id = $_POST['id_admin'];
+            $getDataEdit        = "SELECT * FROM `admin` where id_admin='".$id."'";
             $r_getDataEdit      = mysqli_query($conn,$getDataEdit);
-            $rs_getDataEdit   = mysqli_fetch_array($r_getDataEdit);
+            $rs_getDataEdit     = mysqli_fetch_array($r_getDataEdit);
 ?>
-                <div class="mb-3">
-                  <label class="form-label">ID Kader</label>
-                  <input type="text" name="txt_id" class="form-control" value="<?php echo $rs_getDataEdit['id_kader'];?>" readonly>  
-                </div> 
-                <div class="mb-3">
-                  <label class="form-label">Nama Lengkap</label>
-                  <input type="text" name="txt_nama" class="form-control" placeholder="Nama Lengkap" value="<?php echo $rs_getDataEdit['nama_kader'];?>">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">No Telp</label>
-                  <input type="text" name="txt_telp" class="form-control" placeholder="Nomor Telpon" value="<?php echo $rs_getDataEdit['no_telp_kader'];?>">
-                </div>
-             
-               
+            <input type="hidden" name="txt_admin" class="form-control" value="<?php echo $rs_getDataEdit['id_admin'];?>">
+            <div class="mb-3">
+                <label class="form-label">Nama</label>
+                <input type="text" name="txt_nama" class="form-control" placeholder="Nama Lengkap" value="<?php echo $rs_getDataEdit['nama_admin'];?>">
+            </div> 
+            <div class="mb-3">
+                <label class="form-label">Tempat Lahir</label>
+                <input type="text" name="txt_tempat" class="form-control" placeholder="Tempat Lahir" value="<?php echo $rs_getDataEdit['tempat_lahir_admin'];?>">
+            </div> 
+            <div class="mb-3">
+                <label class="form-label">Tanggal Lahir</label>
+                <input type="date" name="txt_tanggal" class="form-control" placeholder="Tanggal Lahir" value="<?php echo $rs_getDataEdit['tanggal_lahir_admin'];?>" >
+            </div> 
+            <div class="mb-3">
+                <label class="form-label">Jenis Kelamin</label>
+                <?php
+                    $jk_admin = isset($rs_getDataEdit['jenis_kelamin_admin']) ? $rs_getDataEdit['jenis_kelamin_admin'] : ''; 
+                    if($jk_admin == 'Laki-Laki'){
+                        $selected_aktif = 'selected';
+                    } else{
+                        $selected_aktif= '';
+                    }
+
+                    if($jk_admin == 'Perempuan'){
+                        $selected_non = 'selected';
+                    } else{
+                        $selected_non = '';
+                    }
+                ?>
+                <select class="form-select" name="txt_jeniskelamin"> 
+                <option value="Laki-Laki" <?= $selected_aktif; ?>>Laki-Laki</option>
+                <option value="Perempuan" <?= $selected_non; ?> >Perempuan</option> 
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">No Telpon</label>
+                <input type="text" name="txt_telpon" class="form-control" placeholder="No Telpon" value="<?php echo $rs_getDataEdit['no_telp_admin'];?>">
+            </div>  
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="text" name="txt_email" class="form-control" placeholder="Email" value="<?php echo $rs_getDataEdit['email_admin'];?>">
+            </div>     
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <?php
+                    $status_admin = isset($rs_getDataEdit['status_admin']) ? $rs_getDataEdit['status_admin'] : ''; 
+                    if($status_admin == 'Aktif'){
+                        $selected_aktif = 'selected';
+                    } else{
+                        $selected_aktif= '';
+                    }
+
+                    if($status_admin == 'Tidak Aktif'){
+                        $selected_non = 'selected';
+                    } else{
+                        $selected_non = '';
+                    }
+                ?>
+                <select class="form-select" name="txt_status"> 
+                <option value="Aktif" <?= $selected_aktif; ?>>Aktif</option>
+                <option value="Tidak Aktif" <?= $selected_non; ?> >Tidak Aktif</option> 
+                </select>
+            </div>     
 <?php
         break;
-        case"PROSES_EDIT_KADER":
-            $id     = $_POST['txt_id'];
-            $nama   = $_POST['txt_nama']; 
-            $telp   = $_POST['txt_telp']; 
+        case"PROSES_EDIT_ADMIN":
+            $admin      = $_POST['txt_admin'];
+            $nama       = $_POST['txt_nama'];
+            $tempat     = $_POST['txt_tempat'];
+            $tanggal    = $_POST['txt_tanggal'];
+            $jenis      = $_POST['txt_jeniskelamin'];
+            $telp       = $_POST['txt_telpon']; 
+            $email      = $_POST['txt_email'];
+            $status     = $_POST['txt_status'];
 
-            $updateKader = "UPDATE `kader_posyandu` SET `nama_kader`='".$nama."',`no_telp_kader`='".$telp."' WHERE `id_kader`='".$id."'";
-            $r_updateKader = mysqli_query($conn,$updateKader);
+            $updateAdmin = "UPDATE `admin` SET `nama_admin`='".$nama."',`tempat_lahir_admin`='".$tempat."',`tanggal_lahir_admin`='".$tanggal."',`jenis_kelamin_admin`='".$jenis."',
+            `no_telp_admin`='".$telp."',`email_admin`='".$email."',`status_admin`='".$status."' WHERE `id_admin`='".$admin."'";
+            $r_updateAdmin = mysqli_query($conn,$updateAdmin); 
 
-            if($r_updateKader){
-
-            } else{
-
-            }
-
-            header  ("location:../kader.php");
+            header  ("location:../profil_admin.php");
         break;
         //---------------------- END CASE PROFILE ADMIN ---------------------------------------------------
+
         //---------------------- CASE PROFILE PEGAWAI ---------------------------------------------------
         case'TAMBAH_PEGAWAI': 
             $nama       = $_POST['txt_nama'];
@@ -184,64 +197,95 @@
             $queryInsUser = mysqli_query($conn,$insUser);
             header  ("location:../profil_pegawai.php");
 
+        break; 
+
+        case"EDIT_PEGAWAI":
+            $id = $_POST['id_pegawai'];
+            $getDataEdit        = "SELECT * FROM `pegawai` where id_pegawai='".$id."'";
+            $r_getDataEdit      = mysqli_query($conn,$getDataEdit);
+            $rs_getDataEdit     = mysqli_fetch_array($r_getDataEdit);
+?>
+            <input type="hidden" name="txt_pegawai" class="form-control" value="<?php echo $rs_getDataEdit['id_pegawai'];?>">
+            <div class="mb-3">
+                <label class="form-label">Nama</label>
+                <input type="text" name="txt_nama" class="form-control" placeholder="Nama Lengkap" value="<?php echo $rs_getDataEdit['nama_pegawai'];?>">
+            </div> 
+            <div class="mb-3">
+                <label class="form-label">Tempat Lahir</label>
+                <input type="text" name="txt_tempat" class="form-control" placeholder="Tempat Lahir" value="<?php echo $rs_getDataEdit['tempat_lahir_pegawai'];?>">
+            </div> 
+            <div class="mb-3">
+                <label class="form-label">Tanggal Lahir</label>
+                <input type="date" name="txt_tanggal" class="form-control" placeholder="Tanggal Lahir" value="<?php echo $rs_getDataEdit['tanggal_lahir_pegawai'];?>" >
+            </div> 
+            <div class="mb-3">
+                <label class="form-label">Jenis Kelamin</label>
+                <?php
+                    $jk_admin = isset($rs_getDataEdit['jenis_kelamin_pegawai']) ? $rs_getDataEdit['jenis_kelamin_pegawai'] : ''; 
+                    if($jk_admin == 'Laki-Laki'){
+                        $selected_aktif = 'selected';
+                    } else{
+                        $selected_aktif= '';
+                    }
+
+                    if($jk_admin == 'Perempuan'){
+                        $selected_non = 'selected';
+                    } else{
+                        $selected_non = '';
+                    }
+                ?>
+                <select class="form-select" name="txt_jeniskelamin"> 
+                <option value="Laki-Laki" <?= $selected_aktif; ?>>Laki-Laki</option>
+                <option value="Perempuan" <?= $selected_non; ?> >Perempuan</option> 
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">No Telpon</label>
+                <input type="text" name="txt_telpon" class="form-control" placeholder="No Telpon" value="<?php echo $rs_getDataEdit['no_telp_pegawai'];?>">
+            </div>  
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="text" name="txt_email" class="form-control" placeholder="Email" value="<?php echo $rs_getDataEdit['email_pegawai'];?>">
+            </div>     
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <?php
+                    $status_admin = isset($rs_getDataEdit['status_pegawai']) ? $rs_getDataEdit['status_pegawai'] : ''; 
+                    if($status_admin == 'Aktif'){
+                        $selected_aktif = 'selected';
+                    } else{
+                        $selected_aktif= '';
+                    }
+
+                    if($status_admin == 'Tidak Aktif'){
+                        $selected_non = 'selected';
+                    } else{
+                        $selected_non = '';
+                    }
+                ?>
+                <select class="form-select" name="txt_status"> 
+                <option value="Aktif" <?= $selected_aktif; ?>>Aktif</option>
+                <option value="Tidak Aktif" <?= $selected_non; ?> >Tidak Aktif</option> 
+                </select>
+            </div>     
+<?php
         break;
 
-        case"DELETE_BIDAN": 
+        case"PROSES_EDIT_PEGAWAI";
+        $pegawai    = $_POST['txt_pegawai'];
+        $nama       = $_POST['txt_nama'];
+        $tempat     = $_POST['txt_tempat'];
+        $tanggal    = $_POST['txt_tanggal'];
+        $jenis      = $_POST['txt_jeniskelamin'];
+        $telp       = $_POST['txt_telpon']; 
+        $email      = $_POST['txt_email'];
+        $status     = $_POST['txt_status'];
 
-            // Get ID Kader
-            $id            = $_POST['id_bidan'];
+        $updatePegawai = "UPDATE `pegawai` SET `nama_pegawai`='".$nama."',`tempat_lahir_pegawai`='".$tempat."',`tanggal_lahir_pegawai`='".$tanggal."',`jenis_kelamin_pegawai`='".$jenis."',
+        `no_telp_pegawai`='".$telp."',`email_pegawai`='".$email."',`status_pegawai`='".$status."' WHERE `id_pegawai`='".$pegawai."'";
+        $r_updatePegawai = mysqli_query($conn,$updatePegawai); 
 
-            // Cek apakah ID Kader ada pada table laporan
-            $cekBidanLap    = "SELECT COUNT(*) AS TOTAL_USER FROM laporan where id_bidan='".$id."'";
-            $r_cekBidanLap  = mysqli_query($conn,$cekBidanLap);
-            $rs_cekBidanLap = mysqli_fetch_array($r_cekBidanLap);
-
-            // Cek apakah user sedang login atau tidak
-            $cekLogUser    = "SELECT active  FROM user where id_user='".$id."'";
-            $r_cekLogUser  = mysqli_query($conn,$cekLogUser);
-            $rs_cekLogUser = mysqli_fetch_array($r_cekLogUser);
-
-            // Jika ada atau == 0 maka akan ada alert
-            // Data berhasil dihapus, selain itu
-            // Gagal hapus data, data sudah pernah dipakai
-
-            if($rs_cekBidanLap['TOTAL_USER'] == 0){
-                if($rs_cekLogUser == '0'){
-                    $delBidan      = "DELETE FROM bidan where id_bidan='".$id."'";
-                    $queryDelBidan = mysqli_query($conn,$delBidan);
-
-                    $delUser      = "DELETE FROM user where id_user='".$id."'";
-                    $queryDelUser = mysqli_query($conn,$delUser);
-                } else{
-                    // Kirim alert, berhasil menghapus data 
-                }
-            } else{
-                // Kirim alert, gagal menghapus data
-            }
-            header  ("location:../bidan.php");
-
-        break;
-
-        case"PROSES_EDIT_BIDAN":
-            $id         = $_POST['txt_id'];
-            $nama       = $_POST['txt_nama']; 
-            $nip        = $_POST['txt_nip']; 
-            $agama      = $_POST['txt_agama']; 
-            $tempat     = $_POST['txt_tempat']; 
-            $tanggal    = $_POST['txt_tanggal']; 
-            $telp       = $_POST['txt_telp']; 
-            $pendidikan = $_POST['txt_pendidikan']; 
-
-            $updateBidan = "UPDATE `bidan` SET `nama_bidan`='".$nama."',`nip_bidan`='".$nip."',`tanggal_lahir_bidan`='".$tanggal."',`tempat_lahir_bidan`='".$tempat."',`pendidikan_bidan`='".$pendidikan."',`agama_bidan`='".$agama."',`no_telp_bidan`='".$telp."' WHERE `id_bidan`='".$id."'";
-            $r_updateBidan = mysqli_query($conn,$updateBidan);
-
-            if($r_updateBidan){
-
-            } else{
-
-            }
-
-            header  ("location:../bidan.php");
+        header  ("location:../profil_pegawai.php");
 
         break;
         

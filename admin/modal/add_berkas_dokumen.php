@@ -5,7 +5,8 @@
         <h5 class="modal-title" id="addBerkasDokumen"><i class="align-middle me-2" data-feather="plus"></i> Berkas Dokumen</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="controller/master_p.php?role=TAMBAH_BERKAS" method="POST" enctype="multipart/form-data">
+      <form action="controller/master_p.php?role=TAMBAH_BERKAS" method="POST" enctype="multipart/form-data"> 
+      <input type="hidden" name="txt_admin" class="form-control" value="<?php echo $_SESSION['user_id'];?>">
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Nomor</label>
@@ -85,6 +86,11 @@
               </div>
             </div>
           </div> 
+          <div class="mb-3">
+            <label>Dokumen</label>
+            <input type="file"  class="form-control" required="" name="txt_file">
+            <div class="invalid-feedback">File tidak boleh kosong!</div>
+          </div>
           <div class="mb-3">
             <label class="form-label">Status</label>
             <select class="form-select" name="txt_status"> 

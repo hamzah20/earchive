@@ -1,4 +1,3 @@
-
 <div class="modal fade" id="addAdmin" tabindex="-1" aria-labelledby="addAdmin" aria-hidden="true">
 <div class="in modal-dialog">
   <div class="modal-content">

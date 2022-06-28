@@ -30,6 +30,8 @@
                                     <th>Jenis Kelamin</th>
                                     <th>No Telp</th>
                                     <th>Email</th>
+									<th>Status</th>
+									<th>Aksi</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -47,9 +49,18 @@
                                             <td><?php echo $rs['jenis_kelamin_admin']?></td>
                                             <td><?php echo $rs['no_telp_admin']?></td>
                                             <td><?php echo $rs['email_admin']?></td>
+											<?php
+                                                if($rs['status_admin'] == 'Aktif'){
+                                                    $warna_status = 'bg-success';
+                                                } elseif($rs['status_admin'] == 'Tidak Aktif'){
+                                                    $warna_status = 'bg-danger';
+                                                } else{
+                                                    $warna_status = 'bg-secondary';
+                                                }
+                                            ?>
+											<td><span class="badge <?php echo $warna_status; ?>"><?php echo $rs['status_admin']?></span></td>
 											<td>  
-												<button class="btn btn-sm btn-warning"  onclick="edit_map('<?php echo $rs['id_admin']?>')"><i class="align-middle" data-feather="edit"></i></button> 
-												<a class="btn btn-sm btn-danger"  onclick="delete_map('<?php echo $rs['id_admin']?>')"><i class="align-middle text-center" data-feather="trash-2"></i></a>
+												<button class="btn btn-sm btn-warning"  onclick="edit_admin('<?php echo $rs['id_admin']?>')"><i class="align-middle" data-feather="edit"></i></button> 
 											</td>
 										</tr>
 										<?php
@@ -64,7 +75,7 @@
 				</div>
 			</div>  
 			<?php include('modal/add_profil_admin.php'); ?>	
-			<?php include('modal/edit_map.php'); ?>	
+			<?php include('modal/edit_profil_admin.php'); ?>	
 			<?php include('include/footer.php'); ?>
 
 		</div>

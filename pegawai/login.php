@@ -14,7 +14,7 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-sign-in.html" />
 
-	<title>Sign In | AdminKit Demo</title>
+	<title>Sign In | EArchieve</title>
 
 	<link href="../boostrap/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -30,20 +30,20 @@
 							<div class="card-body">
 								<div class="m-sm-4">
 									<div class="text-center">
-										<img src="../boostrap/img/images/logo-kemenkes.png" alt="Charles Hall" class="img-fluid" width="200" height="200" />
+										<img src="../boostrap/img/images/logo-ejmgip-login.png" alt="Charles Hall" class="img-fluid" width="200" height="200" />
 									</div>
-									<form action="controller/login_p.php?role=LOGIN_PASIEN" method="POST">
+									<form action="controller/login_p.php?role=LOGIN_PEGAWAI" method="POST">
 										<div class="mb-3">
-											<label class="form-label">Email</label>
-											<input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" />
+											<label class="form-label">Username</label>
+											<input class="form-control form-control-lg" type="username" name="username" placeholder="Enter your username" />
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Password</label>
 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" /> 
 										</div>  
 										<div class="text-center mt-3">
-											<a href="dashboard.php" class="btn btn-lg btn-primary">Sign in</a>
-											<!-- <button type="submit" class="btn btn-lg btn-primary">Sign in</button> -->
+											<!-- <a href="dashboard.php" class="btn btn-lg btn-primary">Sign in</a> -->
+											<button type="submit" class="btn btn-lg btn-primary">Sign in</button>
 										</div>
 									</form>
 								</div>
@@ -55,7 +55,7 @@
 			</div>
 		</div>
 	</main>
-
+	<?php include('modal/add_kader.php'); ?>	
 	<script src="../boostrap/js/app.js"></script>
 
 </body>

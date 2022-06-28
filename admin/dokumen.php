@@ -24,6 +24,7 @@
 									<th>No</th>
 									<th>Kode</th>
 									<th>Jenis</th> 
+									<th>Status</th> 
 									<th>Aksi</th>
 								</tr>
 							</thead>
@@ -33,16 +34,25 @@
 								$no 			= 1;
 								$DataDok 		= "SELECT * FROM dokumen";
 								$queryDataDok	= mysqli_query($conn,$DataDok);
-								while($RSDataDok = mysqli_fetch_array($queryDataDok)){
+								while($RSDataDok = mysqli_fetch_array($queryDataDok)){ 
 							?>
 								<tr>
 									<td><?php echo $no; ?></td>
-									<td><?php echo $RSDataDok['kode_dokumen']; ?></td>
-									<td><?php echo $RSDataDok['jenis_dokumen']; ?></td> 
+									<td><p class="<?php echo $warna_font;?>"><?php echo $RSDataDok['kode_dokumen']; ?></p></td>
+									<td><?php echo $RSDataDok['jenis_dokumen']; ?></td>  
+									<?php
+										if($RSDataDok['status_dokumen'] == 'Aktif'){
+											$warna_status = 'bg-success';
+										} elseif($RSDataDok['status_dokumen'] == 'Tidak Aktif'){
+											$warna_status = 'bg-danger';
+										} else{
+											$warna_status = 'bg-secondary';
+										}
+									?>
+									<td><span class="badge <?php echo $warna_status; ?>"><?php echo $RSDataDok['status_dokumen']; ?></span></td>  
 									<td>  
 										<button class="btn btn-sm btn-warning"  onclick="edit_dokumen('<?php echo $RSDataDok['kode_dokumen']?>')"><i class="align-middle" data-feather="edit"></i></button> 
-										<button class="btn btn-sm btn-danger"  onclick="delete_dokumen('<?php echo $RSDataDok['kode_dokumen']?>')"><i class="align-middle text-center" data-feather="trash-2"></i></button>
-									</td>
+									</td>  
 								</tr>
 							<?php  
 								$no++;

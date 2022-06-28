@@ -13,7 +13,7 @@
 			<div class="sidebar-content js-simplebar bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
 				<a class="sidebar-brand  py-1">
           			<!-- <span class="align-middle">Eposyandu</span> -->
-          			<img src="../boostrap/img/images/logo-ejmgip.png" class="text-center" width="150px" />
+          			<img src="../boostrap/img/images/logo-ejmgip.png" class="text-center" width="200px" />
         		</a>
 
 				<ul class="sidebar-nav bg-sidebar">
@@ -49,19 +49,24 @@
 					<?php if($_SESSION['user_group'] == 'Admin' OR $_SESSION['user_group'] == 'Super Admin'){ ?>
 						<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
 							<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="berkas_dokumen.php">
-	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Berkas</span>
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Berkas</span>
 	            			</a>
 						</li>
 					<?php } ?>
 					<?php if($_SESSION['user_group'] == 'Admin'){ ?>
 						<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
-							<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="informasi.php">
-	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Catatan</span>
+							<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="memo.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Pengiriman Berkas</span>
 	            			</a>
 						</li>
 						<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
-							<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="informasi.php">
-	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Surat</span>
+							<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="catatan_berkas.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Berkas Masuk</span>
+	            			</a>
+						</li>
+						<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
+							<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="catatan_berkas_keluar.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Berkas Keluar</span>
 	            			</a>
 						</li>
 					<?php } ?>  
@@ -76,13 +81,7 @@
 	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Pegawai</span>
 	            			</a>
 						</li>
-					<?php } ?>
-						<li class="sidebar-item bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;"> 
-							<a class="sidebar-link bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="controller/login_p.php?role=LOGOUT">
-	              				<i class="align-middle" data-feather="log-out"></i> 
-	              				<span class="align-middle">Sign Out</span>
-	            			</a>
-					</li>  
+					<?php } ?> 
 				</ul>
 			</div>
 		</nav>

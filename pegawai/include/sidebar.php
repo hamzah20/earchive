@@ -16,12 +16,7 @@
              				<i class="align-middle" data-feather="sliders"></i> 
              			 	<span class="align-middle">Dashboard</span>
             			</a>
-					<!-- </li>  
-					<li class="sidebar-item bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
-						<a class="sidebar-link bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="dokumen.php">
-							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Master Dokumen</span>
-						</a>
-					</li>   -->
+					</li>    
 					<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
 						<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="berkas_masuk_pegawai.php">
 							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Berkas Masuk</span>

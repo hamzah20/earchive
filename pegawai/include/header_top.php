@@ -16,6 +16,8 @@
 				            </a>
 				            <!-- List menu ini toggle header menu -->
 							<div class="dropdown-menu dropdown-menu-end">  
+							<a class="dropdown-item"  onclick="edit_pegawai('<?php echo $_SESSION['user_id'];?>')"><i class="align-middle me-1" data-feather="user"></i> Edit Profile</a>   
+								<hr>
 								<a class="dropdown-item" href="controller/login_p.php?role=LOGOUT">Log out</a>
 							</div>
 						</li>

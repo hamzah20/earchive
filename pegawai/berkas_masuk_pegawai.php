@@ -21,7 +21,9 @@
 									<th>Nama Berkas</th>
 									<th>Tanggal</th>
                                     <th>Admin</th> 
-									<th>Status</th>
+									<th>Penerima</th>
+									<th>Keperluan</th>
+									<th>Aksi</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -36,7 +38,9 @@
                                             <td><?php echo $rs['kode_surat_tanda_terima']?></td> 
 											<td><?php echo $rs['nama_berkas_dokumen']?></td> 
 											<td><?php echo $rs['tanggal_kirim']?></td> 
-                                            <td><?php echo $rs['nama_pengirim']?></td>    
+                                            <td><?php echo $rs['nama_pengirim']?></td>
+											<td><?php echo $rs['nama_penerima']?></td> 
+											<td><?php echo $rs['keperluan']?></td>   
 											<td>
 												<a class="btn btn-sm btn-success"  href="controller/master_p.php?role=DOWNLOAD_FILE&nama_file=<?php echo $rs['nama_file'];?>"><i class="align-middle" data-feather="download"></i></a> 
 											</td>

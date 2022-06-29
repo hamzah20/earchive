@@ -421,16 +421,8 @@
             $waktu   = date('His');
             $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file 
 
-            if($dokumen == 'D001'){
-                $path       = "../file/D001/". $name; // image upload path
-                $file_name  = "file/D001/". $name;
-            } elseif($dokumen == 'D002'){
-                $path       = "../file/D002/". $name; // image upload path
-                $file_name  = "file/D003/". $name;
-            } elseif($dokumen == 'D003'){
-                $path       = "../file/D003/". $name; // image upload path
-                $file_name  = "file/D003/". $name;
-            }
+            $path       = "../file/'".$dokumen."'";
+            $file_name  = "file/'".$dokumen."'/"
 
             $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path);
 

@@ -17,40 +17,29 @@
 							<thead>
 								<tr>
 									<th>No</th>
-									<th>Kode Catatan</th>
-									<th>Kode Berkas</th>  
+									<th>Kode Catatan</th> 
 									<th>Nama Berkas</th>
 									<th>Tanggal</th>
                                     <th>Admin</th> 
+									<th>Penerima</th> 
 									<th>Status</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 									$i 	 = 1;
-									$sql = "select * from v_catatan where status='Pengiriman' order by kode_catatan_berkas desc";
+									$sql = "select * from v_catatan_keluar order by kode_surat_tanda_terima desc";
 									$r 	 = mysqli_query($conn,$sql);
 									while($rs=mysqli_fetch_array($r)){
 										?>
 										<tr>
 											<td><?php echo $i?></td>
-                                            <td><?php echo $rs['kode_catatan_berkas']?></td>
-											<td><?php echo $rs['kode_berkas_dokumen']?></td>
-											<td><?php echo $rs['nama_berkas_dokumen']?></td> 
-											<td><?php echo $rs['tanggal_berkas_dokumen']?></td> 
-                                            <td><?php echo $rs['nama_admin']?></td>  
-                                            <?php
-                                                if($rs['status'] == 'Penyimpanan'){
-                                                    $warna_status = 'bg-primary';
-                                                } elseif($rs['status'] == 'Pengiriman'){
-                                                    $warna_status = 'bg-success';
-                                                } elseif($rs['status'] == 'Perubahan'){
-                                                    $warna_status = 'bg-warning';
-                                                } else{
-                                                    $warna_status = 'bg-secondary';
-                                                }
-                                            ?>
-											<td><span class="badge <?php echo $warna_status; ?>"><?php echo $rs['status']?></span></td> 
+                                            <td><?php echo $rs['kode_surat_tanda_terima']?></td>
+											<td><?php echo $rs['nama_berkas_dokumen']?></td>
+											<td><?php echo $rs['tanggal_kirim']?></td> 
+											<td><?php echo $rs['nama_pengirim']?></td> 
+                                            <td><?php echo $rs['nama_penerima']?></td>  
+											<td><span class="badge bg-success">Pengiriman</span></td> 
 											<td> </td>
 										</tr>
 										<?php

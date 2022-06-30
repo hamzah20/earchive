@@ -422,7 +422,7 @@
             $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file 
 
             $path       = "../file/'".$dokumen."'";
-            $file_name  = "file/'".$dokumen."'/"
+            $file_name  = "file/'".$dokumen."'/";
 
             $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path);
 

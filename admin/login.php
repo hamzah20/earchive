@@ -61,8 +61,7 @@
 				</div>
 			</div>
 		</div>
-	</main>
-	<?php include('modal/add_kader.php'); ?>	
+	</main> 	
 	<script src="../boostrap/js/app.js"></script>
 
 </body>

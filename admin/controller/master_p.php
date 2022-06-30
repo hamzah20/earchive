@@ -404,7 +404,7 @@
             $rak        = $_POST['txt_rak'];
             $map        = $_POST['txt_map'];
             $status     = $_POST['txt_status'];
-
+            
             //------------- mencari apakah ada nomor dan nama berkas yang sama
             $sql="select count(*) as TOTAL from berkas where nama_berkas_dokumen='".$nama."' OR kode_berkas_dokumen='".$nomor."'";
             $r=mysqli_query($conn,$sql);
@@ -419,12 +419,11 @@
             // Memasukan file ke folder sesuai jenis dokumen
             $tanngal = date('Ymd');
             $waktu   = date('His');
-            $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file 
+            $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]);  
+            $path       = "../file/".$dokumen."/".$name.""; 
+            $file_name  = "file/".$dokumen."/"; 
 
-            $path       = "../file/'".$dokumen."'";
-            $file_name  = "file/'".$dokumen."'/";
-
-            $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path);
+            $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path); 
 
             if($upload){
                 //------------- menambahkan berkas ke dalam database
@@ -750,14 +749,14 @@
                  $run_no = str_pad(strval(intval(1)), 4, "0", STR_PAD_LEFT);
              }
              $nomor="O-".$year.$month.$run_no;
+             
 
             // Memasukan file ke folder sesuai jenis dokumen
             $tanngal = date('Ymd');
             $waktu   = date('His');
-            $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file 
-
-            $path       = "../file/data_pengiriman/". $name; // image upload path
-            $file_name  = "file/data_pengiriman/". $name;
+            $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file  
+            $path       = "../file/data_pengiriman/".$name."";  
+            $file_name  = "file/data_pengiriman/". $name; 
 
             $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path);
 

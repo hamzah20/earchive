@@ -687,7 +687,7 @@
                 $nama_file_db   = explode('/',$_GET['nama_file']);
                 $filename       = $nama_file_db[2]; ;
                 
-                $back_dir = '../';
+                $back_dir = '../../admin/';
                 $file = $back_dir.$_GET['nama_file'];
                  
                     if (file_exists($file)) {
@@ -702,7 +702,6 @@
                         ob_clean();
                         flush();
                         readfile($file);
-                        
                         exit;
                     } 
                     else {

@@ -40,18 +40,21 @@
 
         break;
         case"DELETE_RAK":
-          $kode = $_POST['idx'];
-          // Cek apakah RAK sudah pernah dipakai
-          // $sql_cek  = "SELECT COUNT(*) as TOTAL FROM berkas_dokumen where kode_rak='".$kode."'";
-          // $r_cek    = mysqli_query($conn,$sql_cek); 
-          // $rs_cek   = mysql_fetch_array($r_cek);
-          // if($rs_cek['TOTAL']<=0){
-          //   $sql = "DELETE FROM rak where kode_rak='".$kode."'";
-          //   $r   = mysqli_query($conn,$sql);
-          // } 
-          $sql = "DELETE FROM rak where kode_rak='".$kode."'";
-            $r   = mysqli_query($conn,$sql);
-        break;
+            $kode = $_POST['idx'];
+            // Cek apakah kode rak sudah pernah digunakan
+            $sqlCekRak  = "SELECT COUNT(*) AS TOTAL FROM berkas WHERE kode_rak='".$kode."'";
+            $rCekRak    = mysqli_query($conn,$sqlCekRak);
+            $rsCekRak   = mysqli_fetch_array($rCekRak);
+
+            if($rsCekRak['TOTAL']>0){
+                $_SESSION["message"]="Rak sudah pernah digunakan, tidak bisa dihapus!";
+                header  ("location:../rak.php");
+                exit;
+            } else{
+                $sql = "DELETE FROM rak where kode_rak='".$kode."'";
+                $r   = mysqli_query($conn,$sql);
+            }
+        break; 
         case"EDIT_RAK":
             $id=$_POST['id'];
             $sql="SELECT * FROM rak where kode_rak='".$id."'";
@@ -275,12 +278,23 @@
                     <img src="../<?php echo $rs['gambar_informasi']?>" class="img-fluid">
                 </div>
             <?php
-        break;
+        break; 
         case"DELETE_PROYEK":
-            $id    = $_POST['idx'];
-            $sql   = "DELETE FROM proyek WHERE kode_proyek='".$id."'";
-            $r     = mysqli_query($conn,$sql);
-        break;
+            $id = $_POST['idx'];
+            // Cek apakah kode rak sudah pernah digunakan
+            $sqlCekPro  = "SELECT COUNT(*) AS TOTAL FROM berkas WHERE kode_proyek='".$id."'";
+            $rCekPro    = mysqli_query($conn,$sqlCekPro);
+            $rsCekPro   = mysqli_fetch_array($rCekPro);
+
+            if($rsCekPro['TOTAL']>0){
+                $_SESSION["message"]="Rak sudah pernah digunakan, tidak bisa dihapus!";
+                header  ("location:../rak.php");
+                exit;
+            } else{
+                $sql   = "DELETE FROM proyek WHERE kode_proyek='".$id."'";
+                $r     = mysqli_query($conn,$sql);
+            }
+        break; 
         case"EDIT_PROYEK":
             $id    = $_POST['id'];
             $sql   = "SELECT * FROM proyek where kode_proyek='".$id."'";
@@ -322,16 +336,15 @@
             $nama = $_POST['txt_nama'];
 
             //------------- mencari apakah ada nama map yang sama
-            $sql="select count(*) as TOTAL from rak map nama_map='".$nama."'";
+            $sql="select count(*) as TOTAL from map where nama_map='".$nama."'";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
             if ($rs["TOTAL"]>0)
             {
                 $_SESSION["message"]="Nama MAP sudah ada";
                 header  ("location:../map.php");
-                exit;
-            }
-            
+                exit; 
+            } 
             //------------- mencari nomor terkhir untuk penambahan map
             $sql="select count(*) as TOTAL from map";
             $r=mysqli_query($conn,$sql);
@@ -371,16 +384,19 @@
             <?php
         break;
         case"DELETE_MAP":
-            $id=$_POST['idx'];
-            $sql_image="SELECT gambar_makanan FROM menu_makanan where rec_id='".$id."'";
-            $r_image=mysqli_query($conn,$sql_image);
-            while($rs_image=mysqli_fetch_array($r_image)){
-                $path= "../../".$rs_image['gambar_makanan'];
-                //echo $path;
-                if(unlink($path)){
-                    $sql="DELETE FROM menu_makanan WHERE rec_id='".$id."'";
-                    mysqli_query($conn,$sql);
-                }
+            $id    = $_POST['idx'];
+            // Cek apakah kode map sudah pernah digunakan
+            $sqlCekMap  = "SELECT COUNT(*) AS TOTAL FROM berkas WHERE kode_map='".$id."'";
+            $rCekMap    = mysqli_query($conn,$sqlCekMap);
+            $rsCekMap   = mysqli_fetch_array($rCekMap);
+
+            if($rsCekMap['TOTAL']>0){
+                $_SESSION["message"]="Map sudah pernah digunakan, tidak bisa dihapus!";
+                header  ("location:../map.php");
+                exit;
+            } else{
+                $sql   = "DELETE FROM map WHERE kode_map='".$id."'";
+                $r     = mysqli_query($conn,$sql);
             }
         break;
         case"PROSES_EDIT_MAP":
@@ -841,31 +857,116 @@
                                 ?>
                             </tbody>
                         </table>
-            <?php
+<?php
         break;
         case"DELETE_LAPORAN":
             $id=$_POST['idx'];
             $sql="DELETE FROM laporan WHERE rec_id='".$id."'";
             mysqli_query($conn,$sql);
-             
         break;
-        
-    }
+        case"EXPORT_LAPORAN":
+            // echo "Berhasil"; 
+            $kategori = $_POST['txt_kategori'];
 
-
-
-
-    function hitung_umur($tanggal_lahir){
-    $birthDate = new DateTime($tanggal_lahir);
-    $today = new DateTime("today");
-    if ($birthDate > $today) { 
-        exit("0 tahun 0 bulan 0 hari");
-    }
-    $y = $today->diff($birthDate)->y;
-    $m = $today->diff($birthDate)->m;
-    $d = $today->diff($birthDate)->d;
-    return $y;
-}
+            if($kategori == 'Masuk'){
+            header("Content-type: application/vnd-ms-excel");
+            header("Content-Disposition: attachment; filename=Data Berkas Masuk.xls"); 
 ?>
-
-       
+            <table style="border:1px solid #ddd;">
+                <thead >
+                    <tr>
+                        <th colspan="10" style="font-size: 16px;">DATA BERKAS MASUK </th>
+                    </tr>
+                    <tr>
+                        <th colspan="10"></th>
+                    </tr>
+                    <tr style="border:1px solid #ddd;">
+                        <th>No</th>
+                        <th>Kode Berkas</th>
+                        <th>Nama Berkas</th>
+                        <th>Dokumen</th> 
+                        <th>Map</th> 
+                        <th>Rak</th> 
+                        <th>Proyek</th> 
+                        <th>Admin</th> 
+                        <th>Tanggal</th>
+                        <th>Status</th>  
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $i=1; 
+                        $sql = "SELECT * FROM v_berkas  ";
+                        $r=mysqli_query($conn,$sql); 
+                        while($rs=mysqli_fetch_array($r)){
+                    ?>
+                        <tr style="border:1px solid #ddd;">
+                            <td><?php echo $i;?></td>
+                            <td><?php echo $rs['kode_berkas_dokumen']?></td>
+                            <td><?php echo $rs['nama_berkas_dokumen']?></td>
+                            <td><?php echo $rs['jenis_dokumen']?></td>
+                            <td><?php echo $rs['nama_map']?></td>
+                            <td><?php echo $rs['nama_rak']?></td>
+                            <td><?php echo $rs['nama_proyek']?></td>
+                            <td><?php echo $rs['nama_admin']?></td> 
+                            <td><?php echo $rs['tanggal_berkas_dokumen']?></td>
+                            <td><?php echo $rs['status_berkas_dokumen']?></td>     
+                        </tr>
+                    <?php
+                        $i++;
+                        }
+                    ?>
+                </tbody>
+            </table>
+<?php
+            } else{
+            header("Content-type: application/vnd-ms-excel");
+            header("Content-Disposition: attachment; filename=Data Berkas Keluar.xls"); 
+?>
+            <table style="border:1px solid #ddd;">
+                <thead >
+                    <tr>
+                        <th colspan="7" style="font-size: 16px;">DATA BERKAS KELUAR </th>
+                    </tr>
+                    <tr>
+                        <th colspan="7"></th>
+                    </tr>
+                    <tr style="border:1px solid #ddd;">
+                        <th>No</th>
+                        <th>Kode Dokumen</th>
+                        <th>Dokumen</th> 
+                        <th>Pengirim</th> 
+                        <th>Penerima</th> 
+                        <th>Keperluan</th>  
+                        <th>Tanggal</th>  
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $i=1; 
+                        $sql = "SELECT * FROM v_catatan_keluar  ";
+                        $r=mysqli_query($conn,$sql); 
+                        while($rs=mysqli_fetch_array($r)){
+                    ?>
+                        <tr style="border:1px solid #ddd;">
+                            <td><?php echo $i;?></td>
+                            <td><?php echo $rs['kode_surat_tanda_terima']?></td>
+                            <td><?php echo $rs['nama_berkas_dokumen']?></td>
+                            <td><?php echo $rs['nama_pengirim']?></td>
+                            <td><?php echo $rs['nama_penerima']?></td>
+                            <td><?php echo $rs['keperluan']?></td>
+                            <td><?php echo $rs['tanggal_kirim']?></td>    
+                        </tr>
+                    <?php
+                        $i++;
+                        }
+                    ?>
+                </tbody>
+            </table>
+<?php
+            }
+        break;
+        }
+?>

@@ -32,7 +32,7 @@
 									<div class="text-center">
 										<img src="../boostrap/img/images/logo-ejmgip-login.png" alt="Charles Hall" class="img-fluid" width="200" height="200" />
 									</div>
-									<form action="controller/login_p.php?role=LOGIN_ADMIN" method="POST">
+									<form action="controller/login_p.php?role=LOGIN_PEGAWAI" method="POST">
 										<div class="mb-3">
 											<label class="form-label">Username</label>
 											<input class="form-control form-control-lg" type="username" name="username" placeholder="Enter your username" />
@@ -40,7 +40,7 @@
 										<div class="mb-3">
 											<label class="form-label">Password</label>
 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" /> 
-										</div>   
+										</div>  
 										<div class="text-center mt-3">
 											<!-- <a href="dashboard.php" class="btn btn-lg btn-primary">Sign in</a> -->
 											<button type="submit" class="btn btn-lg btn-primary">Sign in</button>
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 		</div>
-	</main> 	
+	</main> 
 	<script src="../boostrap/js/app.js"></script>
 
 </body>

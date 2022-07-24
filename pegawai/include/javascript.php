@@ -6,17 +6,331 @@
 	
 	<!-- Data Tables -->
 	<script>
-	  jQuery(document).ready(function($) {
+	  $(document).ready( function () {
+			$('#table_id').DataTable();
+		} );
 
-	    "use strict";
+		//------------------------------- RAK 
+		function delete_rak(id){
+	       swal({
+	        title: "Are you sure?",
+	        text: "",
+	        icon: "warning",
+	        buttons: true,
+	        dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	          if (willDelete) {
+	              $.ajax({
+	              type: 'post',
+	              url: 'Controller/master_p.php?role=DELETE_RAK',
+	              data: {idx:id},
+	              success: function (data) {
+	                  swal(
+	                      'Deleted!',
+	                      'Your RAK has been deleted.',
+	                      'success'
+	                    ).then(function(){
+	                      location.reload();
+	                   });
 
-	    $(function() {
-	      $('[data-toggle="tooltip"]').tooltip()
-	    })
+	              }         
+	              }); 
+	          } else {
+	            swal("Your Unit file is safe!");
+	          }
+	        });
+	    }
+	    function edit_rak(id){
+	      $.ajax({
+	          url: 'controller/master_p.php?role=EDIT_RAK',
+	          type: 'post',
+	          data: {id: id},
+	          success: function(body_Edit){ 
+	           
+	            // Add response in Modal body
+	            $('.modalEditRAK').html(body_Edit);
+	            // Display Modal
+	            $('#editRAK').modal('show');
+	          }
+	        });
+	    }
+	    //------------------------------- END OF RAK 
+	    //
+	   
+	   //------------------------------- PROYEK 
+		function delete_proyek(id){
+	       swal({
+	        title: "Are you sure?",
+	        text: "",
+	        icon: "warning",
+	        buttons: true,
+	        dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	          if (willDelete) {
+	              $.ajax({
+	              type: 'post',
+	              url: 'Controller/master_p.php?role=DELETE_PROYEK',
+	              data: {idx:id},
+	              success: function (data) {
+	                  swal(
+	                      'Deleted!',
+	                      'Your Proyek has been deleted.',
+	                      'success'
+	                    ).then(function(){
+	                      location.reload();
+	                   });
+	              }         
+	              }); 
+	          } else {
+	            swal("Your Unit file is safe!");
+	          }
+	        });
+	    }
+	    function edit_proyek(id){
+	      $.ajax({
+	          url: 'controller/master_p.php?role=EDIT_PROYEK',
+	          type: 'post',
+	          data: {id: id},
+	          success: function(body_Edit){ 
+	           
+	            // Add response in Modal body
+	            $('.modalEditProyek').html(body_Edit);
+	            // Display Modal
+	            $('#editProyek').modal('show');
+	          }
+	        });
+	    }
+	    //------------------------------- END OF PROYEK 
 
-	    $('#scheduleTable').DataTable(); 
+	    //------------------------------- DOKUMEN 
+		function change_dokumen(id){
+	       swal({
+	        title: "Anda yakin ingin merubah status dokumen ini?",
+	        text: "",
+	        icon: "warning",
+	        buttons: true,
+	        dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	          if (willDelete) {
+	              $.ajax({
+	              type: 'post',
+	              url: 'Controller/master_p.php?role=DELETE_DOKUMEN',
+	              data: {id_dokumen:id},
+	              success: function (data) {
+	                  swal(
+	                      'Status',
+	                      'Data dokumen berhasil diubah.',
+	                      'success'
+	                    ).then(function(){
+	                      location.reload();
+	                   });
 
-	  });
+	              }         
+	              }); 
+	          } else {
+	            swal("Your Unit file is safe!");
+	          }
+	        });
+	    }
+	    function edit_dokumen(id){
+	      $.ajax({
+	          url: 'controller/master_p.php?role=EDIT_DOKUMEN',
+	          type: 'post',
+	          data: {id_dokumen: id},
+	          success: function(body_Edit){ 
+	           
+	            // Add response in Modal body
+	            $('.modalEditDokumen').html(body_Edit);
+	            // Display Modal
+	            $('#editdokumen').modal('show');
+	          }
+	        });
+	    }
+	    //------------------------------- END OF DOKUMEN
+
+	    //------------------------------- MAP 
+		function delete_map(id){
+	       swal({
+	        title: "Are you sure?",
+	        text: "",
+	        icon: "warning",
+	        buttons: true,
+	        dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	          if (willDelete) {
+	              $.ajax({
+	              type: 'post',
+	              url: 'Controller/master_p.php?role=DELETE_MAP',
+	              data: {idx:id},
+	              success: function (data) {
+	                  swal(
+	                      'Deleted!',
+	                      'Your map has been deleted.',
+	                      'success'
+	                    ).then(function(){
+	                      location.reload();
+	                   });
+	              }         
+	              }); 
+	          } else {
+	            swal("Your Unit file is safe!");
+	          }
+	        });
+	    }
+	    function edit_map(id){
+	      $.ajax({
+	          url: 'controller/master_p.php?role=EDIT_MAP',
+	          type: 'post',
+	          data: {id_map:id},
+	          success: function(body_Edit){ 
+	           
+	            // Add response in Modal body
+	            $('.modalEditMap').html(body_Edit);
+	            // Display Modal
+	            $('#editmap').modal('show');
+	          }
+	        });
+	    }
+	    //------------------------------- END OF MAP
+
+	    //------------------------------- BERKAS 
+		function delete_berkas(id){
+	       swal({
+	        title: "Anda yakin ingin menghapus data ini?",
+	        text: "",
+	        icon: "warning",
+	        buttons: true,
+	        dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	          if (willDelete) {
+	              $.ajax({
+	              type: 'post',
+	              url: 'Controller/master_p.php?role=DELETE_BERKAS',
+	              data: {id:id},
+	              success: function (data) {
+	                  swal(
+	                      'Deleted!',
+	                      'Data berkas berhasil dihapus.',
+	                      'success'
+	                    ).then(function(){
+	                      location.reload();
+	                   });
+              }         
+              }); 
+          } else {
+            swal("Your unit file is safe!");
+          }
+        });
+    }
+    function edit_berkas(id){
+      $.ajax({
+          url: 'controller/master_p.php?role=EDIT_BERKAS',
+          type: 'post',
+          data: {id: id},
+          success: function(body_Edit){ 
+           
+            // Add response in Modal body
+            $('.modalEditBerkas').html(body_Edit);
+            // Display Modal
+            $('#editBerkas').modal('show');
+          }
+        });
+    }
+	function detail_berkas(id){
+      $.ajax({
+          url: 'controller/master_p.php?role=DETAIL_BERKAS',
+          type: 'post',
+          data: {id: id},
+          success: function(body_Edit){ 
+           
+            // Add response in Modal body
+            $('.modalDetailBerkas').html(body_Edit);
+            // Display Modal
+            $('#detailBerkas').modal('show');
+          }
+        });
+    }
+
+    //--------------------------------- informasi
+     function delete_informasi(id){
+       swal({
+        title: "Are you sure?",
+        text: "",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+              $.ajax({
+              type: 'post',
+              url: 'Controller/master_p.php?role=DELETE_INFORMASI',
+              data: {idx:id},
+              success: function (data) {
+                  swal(
+                      'Deleted!',
+                      'Your Information has been deleted.',
+                      'success'
+                    ).then(function(){
+                      location.reload();
+                   });
+
+              }         
+              }); 
+          } else {
+            swal("Your Information file is safe!");
+          }
+        });
+    }
+    function detail_informasi(id){
+      $.ajax({
+          url: 'controller/master_p.php?role=DETAIL_INFORMASI',
+          type: 'post',
+          data: {id: id},
+          success: function(body_Edit){ 
+           
+            // Add response in Modal body
+            $('.modalDetailInformasi').html(body_Edit);
+            // Display Modal
+            $('#detailInformasi').modal('show');
+          }
+        });
+    }
+    function edit_informasi(id){
+      $.ajax({
+          url: 'controller/master_p.php?role=EDIT_INFORMASI',
+          type: 'post',
+          data: {id: id},
+          success: function(body_Edit){ 
+           
+            // Add response in Modal body
+            $('.modalEditInformasi').html(body_Edit);
+            // Display Modal
+            $('#editInformasi').modal('show');
+          }
+        });
+    }
+
+    //--------------------------------------------------- Admin 
+    function edit_admin(id){
+      $.ajax({
+          url: 'controller/profile_p.php?role=EDIT_ADMIN',
+          type: 'post',
+          data: {id_admin: id},
+          success: function(body_Edit){ 
+           
+            // Add response in Modal body
+            $('.modalEditAdmin').html(body_Edit);
+            // Display Modal
+            $('#editAdmin').modal('show');
+          }
+        });
+    }
 
 	 //--------------------------------------------------- Pegawai 
 	 function edit_pegawai(id){
@@ -34,10 +348,55 @@
         });
     }
 
-	</script>
+    //----------------------------------- laporan
+    function view_laporan(id){
+      $.ajax({
+          url: 'controller/master_p.php?role=VIEW_LAPORAN',
+          type: 'post',
+          data: {id: id},
+          success: function(body_Edit){ 
+           
+            // Add response in Modal body
+            $('.modalViewLaporan').html(body_Edit);
+            // Display Modal
+            $('#viewLaporan').modal('show');
+          }
+        });
+    }
+    function delete_laporan(id){
+       swal({
+        title: "Are you sure?",
+        text: "",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+              $.ajax({
+              type: 'post',
+              url: 'Controller/master_p.php?role=DELETE_LAPORAN',
+              data: {idx:id},
+              success: function (data) {
+                  swal(
+                      'Deleted!',
+                      'Your menu has been deleted.',
+                      'success'
+                    ).then(function(){
+                      location.reload();
+                   });
 
+              }         
+              }); 
+          } else {
+            swal("Your menu file is safe!");
+          }
+        });
+    }
+
+
+	</script>
 	<!-- End Data Tables -->
-	
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");

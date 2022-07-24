@@ -36,12 +36,11 @@
 	              success: function (data) {
 	                  swal(
 	                      'Deleted!',
-	                      'Your RAK has been deleted.',
+	                      'Your rak has been deleted.',
 	                      'success'
 	                    ).then(function(){
 	                      location.reload();
 	                   });
-
 	              }         
 	              }); 
 	          } else {
@@ -89,7 +88,6 @@
 	                    ).then(function(){
 	                      location.reload();
 	                   });
-
 	              }         
 	              }); 
 	          } else {
@@ -163,7 +161,7 @@
 	    //------------------------------- MAP 
 		function delete_map(id){
 	       swal({
-	        title: "Anda yakin ingin menghapus data ini?",
+	        title: "Are you sure?",
 	        text: "",
 	        icon: "warning",
 	        buttons: true,
@@ -174,16 +172,15 @@
 	              $.ajax({
 	              type: 'post',
 	              url: 'Controller/master_p.php?role=DELETE_MAP',
-	              data: {id_map:id},
+	              data: {idx:id},
 	              success: function (data) {
 	                  swal(
 	                      'Deleted!',
-	                      'Data map berhasil dihapus.',
+	                      'Your map has been deleted.',
 	                      'success'
 	                    ).then(function(){
 	                      location.reload();
 	                   });
-
 	              }         
 	              }); 
 	          } else {
@@ -195,7 +192,7 @@
 	      $.ajax({
 	          url: 'controller/master_p.php?role=EDIT_MAP',
 	          type: 'post',
-	          data: {id_map: id},
+	          data: {id_map:id},
 	          success: function(body_Edit){ 
 	           
 	            // Add response in Modal body

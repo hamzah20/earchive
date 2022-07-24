@@ -12,38 +12,36 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
-						<h2> <span class="badge bg-success mb-3">DATA MAP</span></h2>
-						<div class="row">
-							<div class="col- mb-3">
-								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMAP"><i class="align-middle me-2" data-feather="plus"></i>
-							  Input Map
-							</button> 
-							</div>
-						</div> 
+						<h2> <span class="badge bg-success mb-3">BERKAS MASUK</span></h2> 
 						<table class="table" id="scheduleTable">
 							<thead>
 								<tr>
 									<th>No</th>
 									<th>Kode</th>
 									<th>Nama</th>  
+									<th>File</th> 
+									<th>Pengirim</th>
+									<th>Tanggal</th>
 									<th>Aksi</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 									$i=1;
-									$sql="select * from map";
+									$sql="select * from v_catatan_keluar where id_penerima='".$_SESSION['user_id']."'";
 									$r=mysqli_query($conn,$sql);
 									while($rs=mysqli_fetch_array($r)){
 										?>
 										<tr>
 											<td><?php echo $i?></td>
-											<td><?php echo $rs['kode_map']?></td>
-											<td><?php echo $rs['nama_map']?></td> 
-											<td>  
-												<button class="btn btn-sm btn-warning"  onclick="edit_map('<?php echo $rs['kode_map']?>')"><i class="align-middle" data-feather="edit"></i></button>  
-												<a class="btn btn-sm btn-danger"  onclick="delete_map('<?php echo $rs['kode_map']?>')"><i class="align-middle text-center" data-feather="trash-2"></i></a>
-											</td>
+											<td><?php echo $rs['kode_surat_tanda_terima']?></td>
+											<td><?php echo $rs['nama_berkas_dokumen']?></td> 
+											<td><?php echo $rs['nama_file']?></td> 
+											<td><?php echo $rs['nama_pengirim']?></td> 
+											<td><?php echo $rs['tanggal_kirim']?></td> 
+											<td>
+												<a class="btn btn-sm btn-success"  href="controller/master_p.php?role=DOWNLOAD_FILE&nama_file=<?php echo $rs['nama_file'];?>"><i class="align-middle" data-feather="download"></i></a> 
+											</td>  
 										</tr>
 										<?php
 										$i++;
@@ -56,8 +54,8 @@
 					</div> 
 				</div>
 			</div>  
-			<?php include('modal/add_map.php'); ?>	
-			<?php include('modal/edit_map.php'); ?>	
+			<?php include('modal/add_proyek.php'); ?>	
+			<?php include('modal/edit_proyek.php'); ?>	
 			<?php include('include/footer.php'); ?>
 
 		</div>

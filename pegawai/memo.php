@@ -12,12 +12,12 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
-						<h2> <span class="badge bg-success mb-3">DATA MAP</span></h2>
+						<h2> <span class="badge bg-success mb-3">DATA KIRIM BERKAS</span></h2> 
 						<div class="row">
 							<div class="col- mb-3">
-								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMAP"><i class="align-middle me-2" data-feather="plus"></i>
-							  Input Map
-							</button> 
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendBerkasDokumen"><i class="align-middle me-2" data-feather="send"></i>
+							  		Kirim Berkas Dokumen
+								</button> 
 							</div>
 						</div> 
 						<table class="table" id="scheduleTable">
@@ -25,25 +25,24 @@
 								<tr>
 									<th>No</th>
 									<th>Kode</th>
-									<th>Nama</th>  
-									<th>Aksi</th>
+									<th>Pengirim</th>  
+									<th>Penerima</th>
+									<th>Keterangan</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 									$i=1;
-									$sql="select * from map";
+									$sql="select * from v_catatan_keluar";
 									$r=mysqli_query($conn,$sql);
 									while($rs=mysqli_fetch_array($r)){
 										?>
 										<tr>
 											<td><?php echo $i?></td>
-											<td><?php echo $rs['kode_map']?></td>
-											<td><?php echo $rs['nama_map']?></td> 
-											<td>  
-												<button class="btn btn-sm btn-warning"  onclick="edit_map('<?php echo $rs['kode_map']?>')"><i class="align-middle" data-feather="edit"></i></button>  
-												<a class="btn btn-sm btn-danger"  onclick="delete_map('<?php echo $rs['kode_map']?>')"><i class="align-middle text-center" data-feather="trash-2"></i></a>
-											</td>
+											<td><?php echo $rs['kode_surat_tanda_terima']?></td>
+											<td><?php echo $rs['nama_pengirim']?></td>
+											<td><?php echo $rs['nama_penerima']?></td>
+											<td><?php echo $rs['keperluan']?></td>  
 										</tr>
 										<?php
 										$i++;
@@ -55,9 +54,8 @@
 						</table>
 					</div> 
 				</div>
-			</div>  
-			<?php include('modal/add_map.php'); ?>	
-			<?php include('modal/edit_map.php'); ?>	
+			</div>   
+			<?php include('modal/kirim_berkas_dokumen.php'); ?>		 
 			<?php include('include/footer.php'); ?>
 
 		</div>

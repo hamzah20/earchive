@@ -81,6 +81,11 @@
 	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Pegawai</span>
 	            			</a>
 						</li>
+						<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
+							<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="laporan.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Laporan</span>
+	            			</a>
+						</li>
 					<?php } ?> 
 				</ul>
 			</div>

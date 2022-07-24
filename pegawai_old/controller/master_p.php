@@ -322,15 +322,16 @@
             $nama = $_POST['txt_nama'];
 
             //------------- mencari apakah ada nama map yang sama
-            $sql="select count(*) as TOTAL from map where nama_map='".$nama."'";
+            $sql="select count(*) as TOTAL from rak map nama_map='".$nama."'";
             $r=mysqli_query($conn,$sql);
             $rs=mysqli_fetch_array($r);
             if ($rs["TOTAL"]>0)
             {
                 $_SESSION["message"]="Nama MAP sudah ada";
                 header  ("location:../map.php");
-                exit; 
-            } 
+                exit;
+            }
+            
             //------------- mencari nomor terkhir untuk penambahan map
             $sql="select count(*) as TOTAL from map";
             $r=mysqli_query($conn,$sql);
@@ -370,9 +371,17 @@
             <?php
         break;
         case"DELETE_MAP":
-            $id    = $_POST['idx'];
-            $sql   = "DELETE FROM map WHERE kode_map='".$id."'";
-            $r     = mysqli_query($conn,$sql);
+            $id=$_POST['idx'];
+            $sql_image="SELECT gambar_makanan FROM menu_makanan where rec_id='".$id."'";
+            $r_image=mysqli_query($conn,$sql_image);
+            while($rs_image=mysqli_fetch_array($r_image)){
+                $path= "../../".$rs_image['gambar_makanan'];
+                //echo $path;
+                if(unlink($path)){
+                    $sql="DELETE FROM menu_makanan WHERE rec_id='".$id."'";
+                    mysqli_query($conn,$sql);
+                }
+            }
         break;
         case"PROSES_EDIT_MAP":
             $kode = $_POST['txt_kode'];
@@ -395,7 +404,7 @@
             $rak        = $_POST['txt_rak'];
             $map        = $_POST['txt_map'];
             $status     = $_POST['txt_status'];
-            
+
             //------------- mencari apakah ada nomor dan nama berkas yang sama
             $sql="select count(*) as TOTAL from berkas where nama_berkas_dokumen='".$nama."' OR kode_berkas_dokumen='".$nomor."'";
             $r=mysqli_query($conn,$sql);
@@ -410,11 +419,20 @@
             // Memasukan file ke folder sesuai jenis dokumen
             $tanngal = date('Ymd');
             $waktu   = date('His');
-            $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]);  
-            $path       = "../file/".$dokumen."/".$name.""; 
-            $file_name  = "file/".$dokumen."/"; 
+            $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file 
 
-            $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path); 
+            if($dokumen == 'D001'){
+                $path       = "../file/D001/". $name; // image upload path
+                $file_name  = "file/D001/". $name;
+            } elseif($dokumen == 'D002'){
+                $path       = "../file/D002/". $name; // image upload path
+                $file_name  = "file/D003/". $name;
+            } elseif($dokumen == 'D003'){
+                $path       = "../file/D003/". $name; // image upload path
+                $file_name  = "file/D003/". $name;
+            }
+
+            $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path);
 
             if($upload){
                 //------------- menambahkan berkas ke dalam database
@@ -639,42 +657,47 @@
             ?> 
                 <table>
                     <tr>
-                        <td>Nomor Dokumen</td>
+                        <td>Nomor</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['kode_berkas_dokumen']?></td>
-                    </tr> 
+                    </tr>
                     <tr>
-                        <td>Nama Dokumen</td>
+                        <td>Admin</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_admin']?></td>
+                    </tr>
+                    <tr>
+                        <td>Nama</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['nama_berkas_dokumen']?></td>
                     </tr>
                     <tr>
-                        <td>Tanggal Penyimpanan</td>
+                        <td>Tanggal</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['tanggal_berkas_dokumen']?></td>
                     </tr>
                     <tr>
-                        <td>Jenis Dokumen</td>
+                        <td>Dokumen</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['jenis_dokumen']?></td>
                     </tr>
                     <tr>
-                        <td>Lokasi Proyek</td>
-                        <td style='padding-left:15px;'>:</td>
-                        <td style='padding-left:15px;'><?php echo $rs['nama_proyek']?></td>
-                    </tr>
-                    <tr>
-                        <td>Nomor Rak</td>
-                        <td style='padding-left:15px;'>:</td>
-                        <td style='padding-left:15px;'><?php echo $rs['nama_rak']?></td>
-                    </tr>
-                    <tr>
-                        <td>Nama Map</td>
+                        <td>Map</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['nama_map']?></td>
                     </tr>
                     <tr>
-                        <td>Status Dokumen</td>
+                        <td>Proyek</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_proyek']?></td>
+                    </tr>
+                    <tr>
+                        <td>Rak</td>
+                        <td style='padding-left:15px;'>:</td>
+                        <td style='padding-left:15px;'><?php echo $rs['nama_rak']?></td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
                         <td style='padding-left:15px;'>:</td>
                         <td style='padding-left:15px;'><?php echo $rs['status_berkas_dokumen']?></td>
                     </tr>
@@ -687,7 +710,7 @@
                 $nama_file_db   = explode('/',$_GET['nama_file']);
                 $filename       = $nama_file_db[2]; ;
                 
-                $back_dir = '../';
+                $back_dir = '../../admin/';
                 $file = $back_dir.$_GET['nama_file'];
                  
                     if (file_exists($file)) {
@@ -707,7 +730,7 @@
                     } 
                     else {
                         $_SESSION['pesan'] = "Oops! File - $filename - not found ...";
-                        header("location:../berkas_dokumen.php");
+                        header("location:../berkas_masuk_pegawai.php");
                     }
             }
         break;
@@ -740,14 +763,14 @@
                  $run_no = str_pad(strval(intval(1)), 4, "0", STR_PAD_LEFT);
              }
              $nomor="O-".$year.$month.$run_no;
-             
 
             // Memasukan file ke folder sesuai jenis dokumen
             $tanngal = date('Ymd');
             $waktu   = date('His');
-            $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file  
-            $path       = "../file/data_pengiriman/".$name."";  
-            $file_name  = "file/data_pengiriman/". $name; 
+            $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file 
+
+            $path       = "../file/data_pengiriman/". $name; // image upload path
+            $file_name  = "file/data_pengiriman/". $name;
 
             $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path);
 
@@ -832,116 +855,31 @@
                                 ?>
                             </tbody>
                         </table>
-<?php
+            <?php
         break;
         case"DELETE_LAPORAN":
             $id=$_POST['idx'];
             $sql="DELETE FROM laporan WHERE rec_id='".$id."'";
             mysqli_query($conn,$sql);
+             
         break;
-        case"EXPORT_LAPORAN":
-            // echo "Berhasil"; 
-            $kategori = $_POST['txt_kategori'];
+        
+    }
 
-            if($kategori == 'Masuk'){
-            header("Content-type: application/vnd-ms-excel");
-            header("Content-Disposition: attachment; filename=Data Berkas Masuk.xls"); 
+
+
+
+    function hitung_umur($tanggal_lahir){
+    $birthDate = new DateTime($tanggal_lahir);
+    $today = new DateTime("today");
+    if ($birthDate > $today) { 
+        exit("0 tahun 0 bulan 0 hari");
+    }
+    $y = $today->diff($birthDate)->y;
+    $m = $today->diff($birthDate)->m;
+    $d = $today->diff($birthDate)->d;
+    return $y;
+}
 ?>
-            <table style="border:1px solid #ddd;">
-                <thead >
-                    <tr>
-                        <th colspan="10" style="font-size: 16px;">DATA BERKAS MASUK </th>
-                    </tr>
-                    <tr>
-                        <th colspan="10"></th>
-                    </tr>
-                    <tr style="border:1px solid #ddd;">
-                        <th>No</th>
-                        <th>Kode Berkas</th>
-                        <th>Nama Berkas</th>
-                        <th>Dokumen</th> 
-                        <th>Map</th> 
-                        <th>Rak</th> 
-                        <th>Proyek</th> 
-                        <th>Admin</th> 
-                        <th>Tanggal</th>
-                        <th>Status</th>  
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $i=1; 
-                        $sql = "SELECT * FROM v_berkas  ";
-                        $r=mysqli_query($conn,$sql); 
-                        while($rs=mysqli_fetch_array($r)){
-                    ?>
-                        <tr style="border:1px solid #ddd;">
-                            <td><?php echo $i;?></td>
-                            <td><?php echo $rs['kode_berkas_dokumen']?></td>
-                            <td><?php echo $rs['nama_berkas_dokumen']?></td>
-                            <td><?php echo $rs['jenis_dokumen']?></td>
-                            <td><?php echo $rs['nama_map']?></td>
-                            <td><?php echo $rs['nama_rak']?></td>
-                            <td><?php echo $rs['nama_proyek']?></td>
-                            <td><?php echo $rs['nama_admin']?></td> 
-                            <td><?php echo $rs['tanggal_berkas_dokumen']?></td>
-                            <td><?php echo $rs['status_berkas_dokumen']?></td>     
-                        </tr>
-                    <?php
-                        $i++;
-                        }
-                    ?>
-                </tbody>
-            </table>
-<?php
-            } else{
-            header("Content-type: application/vnd-ms-excel");
-            header("Content-Disposition: attachment; filename=Data Berkas Keluar.xls"); 
-?>
-            <table style="border:1px solid #ddd;">
-                <thead >
-                    <tr>
-                        <th colspan="7" style="font-size: 16px;">DATA BERKAS KELUAR </th>
-                    </tr>
-                    <tr>
-                        <th colspan="7"></th>
-                    </tr>
-                    <tr style="border:1px solid #ddd;">
-                        <th>No</th>
-                        <th>Kode Dokumen</th>
-                        <th>Dokumen</th> 
-                        <th>Pengirim</th> 
-                        <th>Penerima</th> 
-                        <th>Keperluan</th>  
-                        <th>Tanggal</th>  
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $i=1; 
-                        $sql = "SELECT * FROM v_catatan_keluar  ";
-                        $r=mysqli_query($conn,$sql); 
-                        while($rs=mysqli_fetch_array($r)){
-                    ?>
-                        <tr style="border:1px solid #ddd;">
-                            <td><?php echo $i;?></td>
-                            <td><?php echo $rs['kode_surat_tanda_terima']?></td>
-                            <td><?php echo $rs['nama_berkas_dokumen']?></td>
-                            <td><?php echo $rs['nama_pengirim']?></td>
-                            <td><?php echo $rs['nama_penerima']?></td>
-                            <td><?php echo $rs['keperluan']?></td>
-                            <td><?php echo $rs['tanggal_kirim']?></td>    
-                        </tr>
-                    <?php
-                        $i++;
-                        }
-                    ?>
-                </tbody>
-            </table>
-<?php
-            }
-        break;
-        }
-?>
+
+       

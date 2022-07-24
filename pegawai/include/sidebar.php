@@ -1,7 +1,14 @@
 		<nav id="sidebar" class="sidebar js-sidebar ">
 			<?php
-				//Cek jenis user untuk menentukan warna pada sidebar 
-				$warna_sidebar = '#035C96'; 
+				//Cek jenis user untuk menentukan warna pada sidebar
+				$status_user = $_SESSION['user_group'];
+				if($status_user == 'Super Admin'){
+					$warna_sidebar = '#03204C';
+				} elseif($status_user == 'Admin'){
+					$warna_sidebar = '#04396D';
+				} elseif($status_user == 'Pegawai'){
+					$warna_sidebar = '#035C96';
+				}
 			?>
 			<div class="sidebar-content js-simplebar bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
 				<a class="sidebar-brand  py-1">
@@ -16,12 +23,19 @@
              				<i class="align-middle" data-feather="sliders"></i> 
              			 	<span class="align-middle">Dashboard</span>
             			</a>
-					</li>    
-					<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
-						<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="berkas_masuk_pegawai.php">
-							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Berkas Masuk</span>
-						</a>
 					</li> 
+					<?php if($_SESSION['user_group'] == 'Pegawai'){ ?>
+						<li class="sidebar-item bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
+							<a class="sidebar-link bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="berkas_masuk.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Berkas Masuk</span>
+	            			</a>
+						</li> 
+						<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
+							<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="surat_masuk.php">
+	              				<i class="align-middle" data-feather="book"></i> <span class="align-middle">Surat Masuk</span>
+	            			</a>
+						</li> 
+					<?php }  ?>
 				</ul>
 			</div>
 		</nav>

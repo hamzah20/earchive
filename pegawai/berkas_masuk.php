@@ -28,7 +28,7 @@
 							<tbody>
 								<?php
 									$i=1;
-									$sql="select * from v_catatan_keluar where id_penerima='".$_SESSION['user_id']."'";
+									$sql="select * from v_catatan_keluar where id_penerima='".$_SESSION['user_id']."' order by tanggal_kirim desc";
 									$r=mysqli_query($conn,$sql);
 									while($rs=mysqli_fetch_array($r)){
 										?>
@@ -40,7 +40,7 @@
 											<td><?php echo $rs['nama_pengirim']?></td> 
 											<td><?php echo $rs['tanggal_kirim']?></td> 
 											<td>
-												<a class="btn btn-sm btn-success"  href="controller/master_p.php?role=DOWNLOAD_FILE&nama_file=<?php echo $rs['nama_file'];?>"><i class="align-middle" data-feather="download"></i></a> 
+												<a class="btn btn-sm btn-success"  href="controller/master_p.php?role=DOWNLOAD_FILE&kode=<?php echo $rs['kode_surat_tanda_terima'];?>"><i class="align-middle" data-feather="download"></i></a> 
 											</td>  
 										</tr>
 										<?php

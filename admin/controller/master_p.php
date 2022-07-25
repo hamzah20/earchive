@@ -437,7 +437,7 @@
             $waktu   = date('His');
             $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]);  
             $path       = "../file/".$dokumen."/".$name.""; 
-            $file_name  = "file/".$dokumen."/"; 
+            $file_name  = "file/".$dokumen."/".$name; 
 
             $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path); 
 
@@ -581,14 +581,7 @@
                         </select>
                     </div>
                     </div>
-                </div> 
-                <div class="mb-3">
-                    <label class="form-label">Dokumen</label>
-                    <input type="file"  class="form-control" name="txt_file">
-                    <?php echo $cek_nama_file = isset($rs['nama_file']) ? $rs['nama_file'] : '';?>
-                    <input type="text" name="txt_file_old" value="<?php echo $cek_nama_file; ?>"> 
-                    <div class="invalid-feedback">File tidak boleh kosong!</div>
-                </div>
+                </div>  
                 <div class="mb-3">
                     <label class="form-label">Status</label>
                     <?php
@@ -620,9 +613,7 @@
             $tanggal    = $_POST['txt_tanggal'];
             $proyek     = $_POST['txt_proyek'];
             $rak        = $_POST['txt_rak'];
-            $map        = $_POST['txt_map'];
-            $file_old   = $_POST['txt_file_old'];
-            $file_new   = $_FILES["txt_file"]["name"];
+            $map        = $_POST['txt_map']; 
             $status     = $_POST['txt_status'];
             
             if($file_new == '' or empty($file_new) or is_null($file_new)){
@@ -647,7 +638,7 @@
             }    
             
             $sql = "UPDATE `berkas` SET `id_admin`='".$admin."',`nama_berkas_dokumen`='".$nama."',`kode_dokumen`='".$dokumen."',`tanggal_berkas_dokumen`='".$tanggal."',
-             `kode_proyek`='".$proyek."',`kode_rak`='".$rak."',`kode_map`='".$map."',`nama_file`='".$file_name."',`status_berkas_dokumen`='".$status."' WHERE kode_berkas_dokumen='".$nomor."'";
+             `kode_proyek`='".$proyek."',`kode_rak`='".$rak."',`kode_map`='".$map."',`status_berkas_dokumen`='".$status."' WHERE kode_berkas_dokumen='".$nomor."'";
             $r   = mysqli_query($conn,$sql);  
             header('location:../berkas_dokumen.php');        
         break;
@@ -771,15 +762,19 @@
             $tanngal = date('Ymd');
             $waktu   = date('His');
             $name = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_file"]["name"]); // nama file  
+            $memo = $tanngal.'_'.$waktu.'_'.str_replace(' ','',$_FILES["txt_memo"]["name"]); // nama file  
             $path       = "../file/data_pengiriman/".$name."";  
             $file_name  = "file/data_pengiriman/". $name; 
+            $path_memo  = "../file/data_memo/".$memo."";  
+            $memo_name  = "file/data_memo/". $memo; 
 
             $upload = move_uploaded_file($_FILES["txt_file"]["tmp_name"], $path);
+            $upload_memo = move_uploaded_file($_FILES["txt_memo"]["tmp_name"], $path_memo);
 
-            if($upload){
+            if($upload&&$upload_memo){
                 //------------- menambahkan berkas ke dalam database
-                $sql = "INSERT INTO `surat_tanda_terima`(`kode_surat_tanda_terima`, `nama_berkas_dokumen`,`id_pengirim`, `id_penerima`, `keperluan`, `nama_file`, `tanggal_kirim`) 
-                VALUES ('".$nomor."','".$nama."','".$admin."','".$pegawai."','".$keterangan."','".$file_name."','".$tanggal."')";
+                $sql = "INSERT INTO `surat_tanda_terima`(`kode_surat_tanda_terima`, `nama_berkas_dokumen`,`id_pengirim`, `id_penerima`, `keperluan`, `nama_file`, `memo_file`, `tanggal_kirim`) 
+                VALUES ('".$nomor."','".$nama."','".$admin."','".$pegawai."','".$keterangan."','".$file_name."','".$memo_name."','".$tanggal."')";
                 $r = mysqli_query($conn,$sql);
             }
 

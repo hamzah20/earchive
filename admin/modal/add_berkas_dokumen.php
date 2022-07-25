@@ -19,7 +19,7 @@
           <div class="mb-3">
             <!-- Ambil data dokumen -->
             <?php 
-              $sql_dok  = "SELECT * FROM dokumen";
+              $sql_dok  = "SELECT * FROM dokumen where status_dokumen='Aktif'";
               $r_dok    = mysqli_query($conn,$sql_dok);
             ?>
             <label class="form-label">Dokumen</label>

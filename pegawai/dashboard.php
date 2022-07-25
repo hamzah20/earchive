@@ -8,47 +8,59 @@
 		<div class="main">
 			<!-- Header top in posyandu/include -->
 			<?php include('include/header_top.php'); ?>
+ 
+			<div class="row">
+				<div class="col">
+					<a href="berkas_masuk.php">
+					<div class="card">
+						<div class="card-body">
+							<div class="row">
+								<div class="col mt-0">
+									<h5 class="card-title">Berkas Masuk</h5>
+								</div>
 
-			<div class="card">
-				<div class="card-body">
-					<div class="row">
-						<div class="col mt-0">
-							<h5 class="card-title">Earnings</h5>
-						</div>
-
-						<div class="col-auto">
-							<div class="stat text-primary">
-								<i class="align-middle" data-feather="dollar-sign"></i>
+								<div class="col-auto">
+									<div class="stat text-primary">
+										<i class="align-middle" data-feather="user"></i>
+									</div>
+								</div>
 							</div>
+							<?php 
+								$sql_berkas = "SELECT COUNT(*) AS TOTAL FROM surat_tanda_terima WHERE id_penerima='".$_SESSION['user_id']."'";
+            					$r_berkas 	= mysqli_query($conn,$sql_berkas);
+            					$rs_berkas 	= mysqli_fetch_array($r_berkas); 
+							?>
+							<h1 class="mt-1 mb-3 text-success"><?= $rs_berkas['TOTAL']; ?></h1>
 						</div>
 					</div>
-					<h1 class="mt-1 mb-3">$21.300</h1>
-					<div class="mb-0">
-						<span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-						<span class="text-muted">Since last week</span>
-					</div>
-				</div>
-			</div>
-			<div class="card">
-				<div class="card-body">
-					<div class="row">
-						<div class="col mt-0">
-							<h5 class="card-title">Orders</h5>
-						</div>
+					</a>
+				</div>	
+				<div class="col">
+					<a href="surat_masuk.php">
+					<div class="card">
+						<div class="card-body">
+							<div class="row">
+								<div class="col mt-0">
+									<h5 class="card-title">Surat Masuk</h5>
+								</div>
 
-						<div class="col-auto">
-							<div class="stat text-primary">
-								<i class="align-middle" data-feather="shopping-cart"></i>
+								<div class="col-auto">
+									<div class="stat text-primary">
+										<i class="align-middle" data-feather="user"></i>
+									</div>
+								</div>
 							</div>
+							<?php 
+								$sql_berkas = "SELECT COUNT(*) AS TOTAL FROM surat_tanda_terima WHERE id_penerima='".$_SESSION['user_id']."'";
+            					$r_berkas 	= mysqli_query($conn,$sql_berkas);
+            					$rs_berkas 	= mysqli_fetch_array($r_berkas); 
+							?>
+							<h1 class="mt-1 mb-3 text-success"><?= $rs_berkas['TOTAL']; ?></h1>
 						</div>
 					</div>
-					<h1 class="mt-1 mb-3">64</h1>
-					<div class="mb-0">
-						<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-						<span class="text-muted">Since last week</span>
-					</div>
+					</a>
 				</div>
-			</div>  
+			</div> 
 
 			<?php include('include/footer.php'); ?>
 		</div>

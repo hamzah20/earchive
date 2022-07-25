@@ -19,15 +19,17 @@
 									<th>No</th>
 									<th>Kode</th>
 									<th>Nama</th>  
-									<th>Pengirim</th>
+									<th>File</th>
 									<th>Keperluan</th>
+									<th>Pengirim</th>
 									<th>Tanggal</th> 
+									<th>Aksi</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 									$i=1;
-									$sql="select * from v_catatan_keluar where id_penerima='".$_SESSION['user_id']."'";
+									$sql="select * from v_catatan_keluar where id_penerima='".$_SESSION['user_id']."' order by tanggal_kirim desc";
 									$r=mysqli_query($conn,$sql);
 									while($rs=mysqli_fetch_array($r)){
 										?>
@@ -35,9 +37,13 @@
 											<td><?php echo $i?></td>
 											<td><?php echo $rs['kode_surat_tanda_terima']?></td>
 											<td><?php echo $rs['nama_berkas_dokumen']?></td> 
-											<td><?php echo $rs['nama_pengirim']?></td> 
+											<td><?php echo $rs['memo_file']?></td> 
 											<td><?php echo $rs['keperluan']?></td> 
+											<td><?php echo $rs['nama_pengirim']?></td> 
 											<td><?php echo $rs['tanggal_kirim']?></td>  
+											<td>
+												<a class="btn btn-sm btn-success"  href="controller/master_p.php?role=DOWNLOAD_MEMO&kode=<?php echo $rs['kode_surat_tanda_terima'];?>"><i class="align-middle" data-feather="download"></i></a> 
+											</td> 
 										</tr>
 										<?php
 										$i++;

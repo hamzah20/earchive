@@ -37,6 +37,10 @@
             <input type="file" name="txt_file" class="form-control" required>
           </div>  
           <div class="mb-3">
+            <label class="form-label">Memo</label>
+            <input type="file" name="txt_memo" class="form-control" required>
+          </div>  
+          <div class="mb-3">
             <label class="form-label">Keterangan</label>
             <input type="text" name="txt_keterangan" class="form-control" required>
           </div>   

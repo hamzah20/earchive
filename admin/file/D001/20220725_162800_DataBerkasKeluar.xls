@@ -1,0 +1,67 @@
+            <table style="border:1px solid #ddd;">
+                <thead >
+                    <tr>
+                        <th colspan="7" style="font-size: 16px;">DATA BERKAS KELUAR </th>
+                    </tr>
+                    <tr>
+                        <th colspan="7"></th>
+                    </tr>
+                    <tr style="border:1px solid #ddd;">
+                        <th>No</th>
+                        <th>Kode Dokumen</th>
+                        <th>Dokumen</th> 
+                        <th>Pengirim</th> 
+                        <th>Penerima</th> 
+                        <th>Keperluan</th>  
+                        <th>Tanggal</th>  
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                                            <tr style="border:1px solid #ddd;">
+                            <td>1</td>
+                            <td>O-22060001</td>
+                            <td>Data LPJ</td>
+                            <td>Admin 1</td>
+                            <td>Adelya Faramita yuyu</td>
+                            <td>Format LPJ Komfastek untuk Hamzah</td>
+                            <td>2022-06-16</td>    
+                        </tr>
+                                            <tr style="border:1px solid #ddd;">
+                            <td>2</td>
+                            <td>O-22060002</td>
+                            <td>Data Testing</td>
+                            <td>Admin 1</td>
+                            <td>Adelya Faramita yuyu</td>
+                            <td>Sebagai data LPJ</td>
+                            <td>2022-06-25</td>    
+                        </tr>
+                                            <tr style="border:1px solid #ddd;">
+                            <td>3</td>
+                            <td>O-22060003</td>
+                            <td>Data Nida</td>
+                            <td>Admin 1</td>
+                            <td>Nida Khaerunisa</td>
+                            <td>abc</td>
+                            <td>2022-06-23</td>    
+                        </tr>
+                                            <tr style="border:1px solid #ddd;">
+                            <td>4</td>
+                            <td>O-22060004</td>
+                            <td>sasa</td>
+                            <td>Admin 1</td>
+                            <td>Hamzah Aji Pratama yeyey</td>
+                            <td>saas</td>
+                            <td>2022-06-14</td>    
+                        </tr>
+                                            <tr style="border:1px solid #ddd;">
+                            <td>5</td>
+                            <td>O-22060005</td>
+                            <td>ayo</td>
+                            <td>Admin 1</td>
+                            <td>Hamzah Aji Pratama yeyey</td>
+                            <td>apa aja</td>
+                            <td>2022-06-17</td>    
+                        </tr>
+                                    </tbody>
+            </table>

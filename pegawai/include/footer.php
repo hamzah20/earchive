@@ -5,8 +5,7 @@
 					</div> 
 
 				</div>
-			</main>
-			<?php include('modal/edit_dokumen.php'); ?>
+			</main> 
 			<footer class="footer">
 				<div class="container-fluid">
 					<div class="row text-muted">

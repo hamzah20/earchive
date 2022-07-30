@@ -13,6 +13,18 @@
 				<div class="card-body">
 					<div class="row">
 						<h2> <span class="badge bg-success mb-3"> DATA BERKAS KELUAR</span></h2> 
+						<div class="row">
+						<div class="col-md mb-3 pl-0">
+								<form action="catatan_berkas_keluar.php" method="get"> 
+									<table>
+										<tr>
+											<td><input type="text" class="form-control float-right" name="cari" placeholder="Cari Nama Berkas ..."></td>
+											<td><input type="submit" class="btn btn-primary float-right" value="Cari"></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
 						<table class="table" id="scheduleTable">
 							<thead>
 								<tr>
@@ -25,13 +37,19 @@
 									<th>Status</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody> 
 								<?php
-									$i 	 = 1;
-									$sql = "select * from v_catatan_keluar order by kode_surat_tanda_terima desc";
+									if(isset($_GET['cari'])){
+										$cari = $_GET['cari'];
+										$i 	 = 1;
+										$sql = "select * from v_catatan_keluar where nama_berkas_dokumen like '%".$cari."%' or kode_surat_tanda_terima like '%".$cari."%' or tanggal_kirim like '%".$cari."%' or nama_pengirim like '%".$cari."%' or nama_penerima like '%".$cari."%' order by kode_surat_tanda_terima desc";
+									}else{
+										$i 	 = 1;
+										$sql = "select * from v_catatan_keluar order by kode_surat_tanda_terima desc";
+									} 
 									$r 	 = mysqli_query($conn,$sql);
 									while($rs=mysqli_fetch_array($r)){
-										?>
+								?>
 										<tr>
 											<td><?php echo $i?></td>
                                             <td><?php echo $rs['kode_surat_tanda_terima']?></td>

@@ -14,10 +14,20 @@
 					<div class="row">
 						<h2> <span class="badge bg-success mb-3">DATA BERKAS DOKUMEN</span></h2>
 						<div class="row">
-							<div class="col- mb-3">
+							<div class="col-md mb-3">
 								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBerkasDokumen"><i class="align-middle me-2" data-feather="plus"></i>
 							  		Input Berkas Dokumen
 								</button>  
+							</div>
+							<div class="col-md-3 mb-3 text-right">
+								<form action="berkas_dokumen.php" method="get" class="float-right"> 
+									<table class="text-right">
+										<tr>
+											<td><input type="text" class="form-control float-right" name="cari" placeholder="Cari ..."></td>
+											<td><input type="submit" class="btn btn-primary float-right" value="Cari"></td>
+										</tr>
+									</table>
+								</form>
 							</div>
 						</div> 
 						<table class="table" id="table_id">
@@ -32,13 +42,22 @@
 									<th>Aksi</th>
 								</tr>
 							</thead>
+							<?php 
+								
+							?>
 							<tbody>
 								<?php
-									$i 	 = 1;
-									$sql = "select * from v_berkas order by kode_berkas_dokumen asc";
+									if(isset($_GET['cari'])){
+										$cari = $_GET['cari'];
+										$i 	 = 1;
+										$sql = "select * from v_berkas where nama_berkas_dokumen like '%".$cari."%' or kode_berkas_dokumen like '%".$cari."%' or jenis_dokumen like '%".$cari."%' or tanggal_berkas_dokumen like '%".$cari."%' or nama_admin like '%".$cari."%' order by kode_berkas_dokumen asc";			
+									}else{
+										$i 	 = 1;
+										$sql = "select * from v_berkas order by kode_berkas_dokumen asc";	
+									} 
 									$r 	 = mysqli_query($conn,$sql);
 									while($rs=mysqli_fetch_array($r)){
-										?>
+								?>
 										<tr>
 											<td><?php echo $i?></td>
 											<td><?php echo $rs['kode_berkas_dokumen']?></td>

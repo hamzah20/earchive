@@ -55,9 +55,7 @@
 						</table>
 					</div> 
 				</div>
-			</div>  
-			<?php include('modal/add_proyek.php'); ?>	
-			<?php include('modal/edit_proyek.php'); ?>	
+			</div>   
 			<?php include('include/footer.php'); ?>
 
 		</div>

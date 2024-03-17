@@ -1,0 +1,45 @@
++Activity digaram mengelola pengiriman berkas
++Sequence diagram Mengelola Pengiriman Berkas
+
+Revisi Aplikasi
+
+Master Proyek - Tulisin Tanggal Pembangunan
+Master Map - Belum bisa delete
+
+Nomor Dokumen 		:
+Nama Dokumen		:
+Tanggal Penyimpanan	:
+Jenis Dokumen		:
+Lokasi Proyek		:
+Rak			:
+Map			:
+Status Dokumen		:
+
+
+Perubahan/penambahan
+-Untuk superadmin bagian berkas, input berkas di hapus ajah
+-Status user tidak aktif dibuat tidak bisa login
+-Alert di pembuatan user
+-Dashboard belum ada
+-Fitur pencarian berkas
+-Fitur export laporan ke excel
+-Surat Tanda Terima belum ada
+-Superadmin di bagian berkas dibuat cuma bisa download dan lihat
+
+Revisi
+-Master Map belum bisa hapus
+-Pengiriman berkas belum bisa
+-Berkas masuk pegawai belum bisa download
+-Selain dokumen legalitas PT , tidak bisa di download
+-Di bagian input pegawai ada yang aneh
+
+
+27 Oktober 2021 Bab 1 & 2
+7 November 2021 Bab 1 & 2 Revisi penulisan
+3 Maret 2022 Bab 3
+19 Maret 2022 Bab 3 Revisi erd dan struktur tabel
+3 April 2022 Bab 3 Revisi usecase dan activity diagram
+25 Juni 2022 Bab 4 dan 5
+7 Juli 2022 Bab 5 Revisi kesimpulan dan daftar pustaka
+16 Juli 202 Pengujian sistem informasi pemberkasan arsip
+

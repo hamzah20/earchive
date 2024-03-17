@@ -17,21 +17,20 @@
 				            <!-- List menu ini toggle header menu -->
 							<div class="dropdown-menu dropdown-menu-end">
 								<?php 
-									if($_SESSION['user_group'] == 'Kader Posyandu'){
+									if($_SESSION['user_group'] == ''){
 								?>
 										<a class="dropdown-item"  onclick="edit_kader('<?php echo $_SESSION['user_id'];?>')"><i class="align-middle me-1" data-feather="user"></i> Edit Kader Posyandu</a>  
 								<?php
-									} elseif($_SESSION['user_group'] == 'Bidan Posyandu'){
+									} elseif($_SESSION['user_group'] == ''){
 								?>
 										<a class="dropdown-item" href="edit_bidan.php?id=<?php echo $_SESSION['user_id']; ?>"><i class="align-middle me-1" data-feather="user"></i> Edit Bidan Posyandu</a> 
 								<?php
-									} elseif($_SESSION['user_group'] == 'Pasien'){
+									} elseif($_SESSION['user_group'] == ''){
 								?>
 									<a class="dropdown-item" href="profile.php?id=<?php echo $_SESSION['user_id']; ?>"><i class="align-middle me-1" data-feather="user"></i> Edit Bidan Posyandu</a> 
 								<?php
 									}
 								?>
-								
 								<div class="dropdown-divider"></div> 
 								<a class="dropdown-item" href="controller/login_p.php?role=LOGOUT">Log out</a>
 							</div>

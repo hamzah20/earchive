@@ -21,7 +21,7 @@
 	 //--------------------------------------------------- Pegawai 
 	 function edit_pegawai(id){
       $.ajax({
-          url: 'controller/profile_p.php?role=EDIT_PEGAWAI',
+          url: 'controller/profile_pi.php?role=EDIT_PEGAWAI',
           type: 'post',
           data: {id_pegawai: id},
           success: function(body_Edit){ 

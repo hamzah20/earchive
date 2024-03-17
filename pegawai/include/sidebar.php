@@ -11,17 +11,22 @@
 
 				<ul class="sidebar-nav bg-sidebar">
 					<li class="sidebar-header  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;"></li>
-					<li class="sidebar-item active  bg-sidebar">
+					<li class="sidebar-item  bg-sidebar">
 						<a class="sidebar-link bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="dashboard.php">
              				<i class="align-middle" data-feather="sliders"></i> 
              			 	<span class="align-middle">Dashboard</span>
             			</a>
 					</li>    
 					<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
-						<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="berkas_masuk_pegawai.php">
-							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Berkas Masuk</span>
+						<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="berkas_masuk.php">
+							<i class="align-middle" data-feather="inbox"></i> <span class="align-middle">Berkas Masuk</span>
 						</a>
 					</li> 
+					<li class="sidebar-item  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;">
+						<a class="sidebar-link  bg-sidebar" style="background-color: <?= $warna_sidebar; ?>;" href="surat_masuk.php">
+							<i class="align-middle" data-feather="mail"></i> <span class="align-middle">Surat Masuk</span>
+						</a>
+					</li>
 				</ul>
 			</div>
 		</nav>

@@ -12,7 +12,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
-						<h2> <span class="badge bg-success mb-3"> DATA BERKAS MASUK</span></h2> 
+						<h2> <span class="badge bg-success mb-3"> DATA SURAT MASUK</span></h2> 
 						<table class="table" id="scheduleTable">
 							<thead>
 								<tr>
